@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 14 July 2022                                           Ericsson
-                                                         10 January 2022
+Expires: 15 July 2022                                           Ericsson
+                                                         11 January 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 14 July 2022.
+   This Internet-Draft will expire on 15 July 2022.
 
 Copyright Notice
 
@@ -503,8 +503,9 @@ Table of Contents
 
    Cryptographically, EDHOC does not put requirements on the lower
    layers.  EDHOC is not bound to a particular transport layer and can
-   even be used in environments without IP.  The transport is
-   responsible, where necessary, to handle:
+   even be used in environments without IP.  In addition to transport of
+   messages including errors, the transport is responsible, where
+   necessary, to handle:
 
    *  message loss,
 
@@ -515,8 +516,6 @@ Table of Contents
    *  fragmentation,
 
    *  demultiplex EDHOC messages from other types of messages,
-
-   *  transport of error messages,
 
    *  denial-of-service protection,
 
@@ -875,8 +874,8 @@ Table of Contents
 
    *  Cipher suites 24 and 25 are intended for high security
       applications such as government use and financial applications.
-      These cipher suites do not share any algorithms.  The algorithms
-      of cipher suite 24 are included in the CNSA suite [CNSA].
+      These cipher suites do not share any algorithms.  Cipher suite 24
+      consists of algorithms from the CNSA suite [CNSA].
 
    The different methods (Section 3.2) use the same cipher suites, but
    some algorithms are not used in some methods.  The EDHOC signature
@@ -2812,9 +2811,9 @@ Table of Contents
               Mattsson, J. P., Selander, G., Raza, S., Höglund, J., and
               M. Furuhed, "CBOR Encoded X.509 Certificates (C509
               Certificates)", Work in Progress, Internet-Draft, draft-
-              ietf-cose-cbor-encoded-cert-02, 12 July 2021,
+              ietf-cose-cbor-encoded-cert-03, 10 January 2022,
               <https://www.ietf.org/archive/id/draft-ietf-cose-cbor-
-              encoded-cert-02.txt>.
+              encoded-cert-03.txt>.
 
    [I-D.ietf-lake-reqs]
               Vucinic, M., Selander, G., Mattsson, J. P., and D. Garcia-
