@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-01-11T01:11:42.838786+00:00",
+  "timestamp": "2022-01-13T01:13:31.447213+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -7206,7 +7206,7 @@
       ],
       "body": "The confidentiality protection in EDHOC does not conceal the length of the identifiers ID_CRED_I and ID_CRED_R. We should maybe add OPTIONAL padding for deployments wanting to give eavesdroppers less information regarding the length of these identifiers. This could quite easily be achieved by allowign 0 or more simple values (e.g. true) in the beginning of the plaintexts.\r\n\r\n```\r\nOLD:\r\nplaintext = ( ID_CRED_R / bstr / int, Signature_or_MAC_2, ? EAD_2 )\r\n\r\nNEW:\r\nplaintext = ( *true, ID_CRED_R / bstr / int, Signature_or_MAC_2, ? EAD_2 )\r\n\r\n```",
       "createdAt": "2021-10-29T08:23:18Z",
-      "updatedAt": "2021-12-20T22:06:30Z",
+      "updatedAt": "2022-01-12T14:38:35Z",
       "closedAt": null,
       "comments": [
         {
@@ -7278,6 +7278,13 @@
           "body": "tl;dr : Thanks, the commit at https://github.com/lake-wg/edhoc/commit/1d0e09a2ca3f701a46e55337d17c16f8e7f8f6dc looks good :-)\r\n\r\n> The optional to use per message is already in the PR I think as \"may be used\".\r\n\r\nYes and that's fine, but that's when describing the message processing from the point of view of the sender.\r\n\r\n> Reading \"For the sender, optional to use, on a per-message basis. If the sender is surely never going to pad an outgoing message, no need for it to support padding as a sender at all, of course.\" It seem like you agree with the suggestion proposed at the interim. We understood it as you proposed changes.\r\n\r\nThe comment referred to Section 7 \"Mandatory-to-Implement Compliance Requirements\", for which the new text in PR #190 used to say \"OPTIONAL to support\". The proposed change was to limit that to the sender side (consistent with the above), but mandatory to the recipient side, to ensure it's able to parse the padding if that was included.\r\n\r\n> The \"may be used\" could be changes to \"optional....\" if that is better.\r\n\r\nI think that \"may be used\" is also fine in those sections about message processing from the point-of-view of the sender.",
           "createdAt": "2021-12-20T22:06:29Z",
           "updatedAt": "2021-12-20T22:06:29Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Seems like we agree on the high level stuff. Me and G\u00f6ran spotted that \"remove\" and \"discard\" might be the wrong words. The requirement should be on being able to parse. G\u00f6ran will improve the text. After that we are likely ready to merge\r\n\r\n",
+          "createdAt": "2022-01-12T14:38:35Z",
+          "updatedAt": "2022-01-12T14:38:35Z"
         }
       ]
     },
@@ -7547,12 +7554,13 @@
         "emanjon"
       ],
       "labels": [
+        "Close?",
         "PR exists",
         "Done in master"
       ],
       "body": "- The MAC length MUST be at least 8 bytes.\r\n- Compact representation only for G_X and G_Y\r\n- nonce for binding with the event that triggered KeyUpdate\r\n- Explanation of no running hash\r\n\r\nThese have already seen commits to master",
       "createdAt": "2021-11-11T06:15:19Z",
-      "updatedAt": "2021-12-21T14:47:03Z",
+      "updatedAt": "2022-01-11T09:31:54Z",
       "closedAt": null,
       "comments": [
         {
@@ -7595,12 +7603,11 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
-        "Close?",
         "PR exists"
       ],
       "body": "https://mailarchive.ietf.org/arch/msg/lake/JMVbv_rlfozxMh3n9ckmB7lvxAM/\r\n\r\n-----------------------------------\r\n\r\nHiya,\r\n\r\nAt our last interim I also promised to review edhoc. This\r\nis my late (apologies;-) review. This is all review by me\r\nas just another participant, not as co-chair. (So please\r\ndo feel entirely free to ignore bits or just say no.)\r\n\r\nGenerally, I guess I could implement from this, were I\r\nfluent in CBOR/COSE etc, so I think it's in good shape.\r\nAll but my first comment are editorial. I assumed that\r\nwe'll have others who do crypto analysis and implementers\r\nwho'll provide yet more detailed feedback as we go, so\r\nwe're not quite there yet but getting pretty close IMO.\r\nGood job!\r\n\r\nCheers,\r\nS.\r\n\r\n\r\n- Connection identifiers (which can be byte-strings) are\r\nsent in clear which could enable various network observer\r\nattacks for protocols that later send values obviously\r\nderived from connection IDs in clear. (I see from A.3 that\r\none main use case does expose these values anyway.). To\r\ngiven an example of how this could be concerning, if some\r\nproxy (that just muxes packets) sits between I and R then\r\nthose cleartext identifiers could allow an observer on that\r\nlink to more easily do traffic analysis of a specific\r\ninitiator's traffic. Was any consideration given to deriving\r\nsuch identifiers in a less obvious manner? I'm not claiming\r\nthat that'd be a great improvement, just asking.\r\n\r\nEditorial:\r\n\r\n- 80 pages is still big, I understand its hard to delete\r\n   stuff but hope we keep trying:-)\r\n\r\n- 1.1, CWT, CSS and C509 could do with expansion here on\r\n   1st use.  (Perversely, X.509 is probably sufficiently\r\nwell known and disliked to not need such:-) That might also\r\nmake the text before (or caption of) Figure 1 easier to\r\nread.\r\n\r\n- section 1.2: last para - this is repetitive, suggest\r\n   making these points just once\r\n\r\n(Aside on figures/captions: I always find it a useful\r\nexercise to ensure that a figure+caption can, by itself,\r\nmake a meaningful slide to present with no additions. And\r\nthen I remove most text that's already in the caption from\r\nelsewhere in the document. Might be worth a try.)\r\n\r\n- Figure 1: I don't get how the \"Figure 1 shows...\"\r\n   sentence results in those example message sizes. I'm not\r\ndoubting the numbers, but the text could be improved\r\n(maybe, as suggested above via caption text.)\r\n\r\n- 1.4: are \"EDHOC authenticated with digital signatures\"\r\n   and \"EDHOC authenticated with signature keys\" different\r\nthings? If not, using one term is likely better. If so,\r\nusing terms that are more clearly different would be good.\r\n\r\n- 1.5: which is normative, CDDL or English language text?\r\n   We seem to have a bit of a mixture.\r\n\r\n- Figure 2: I see why message 2 doesn't also use an AEAD(),\r\n   but probably no harm to say that more explicitly here.\r\nMaybe moving some of the relevant text from section 8 to\r\nhere would work.\r\n\r\n- Figure 2: consider showing the AAD as an input to the\r\n   AEAD() construct in the figure. That might be too\r\ncumbersome or it may help, not sure.\r\n\r\n- 3.5.1, 3.5.2 and 3.5.3: this might be some text to\r\n   shorten a lot - how much is it really needed? Could it be\r\ncut down to the stuff with 2119 terms and a bit more? (I'd\r\nkeep the examples though.)\r\n\r\n- 3.6: does EDHOC *really* support hash based sigs? What'd\r\n   be the consequence for EDHOC of using a private key too\r\nmany times or loss of state?  (Are you missing a reference\r\nto rfc8778 there too or is one embedded in COSE stuff\r\nsomewhere?)\r\n\r\n- 4.1: Be good to clarify that the PRK_<foo> labels in\r\n   4.1.x are basically local key names. (Same for others in\r\n4.2.)\r\n\r\n- 4.1.2/3: You need to define R and I in each of these as\r\n   (I guess) the static DH secret and not as the identities\r\nof the initiator and recipient which were (I thought) the\r\nprevious uses of I and R. Might be better to use different\r\nnames though.\r\n\r\n- 5.2.2: What does \"truncated after the cipher suite\r\n   selected for this session\" mean? (Also be good to say\r\norder of preference means first in network byte order is\r\nmost-preferred.) I'm also puzzled by \"but all cipher suites\r\nwhich are more preferred than the selected cipher suite in\r\nthe list MUST be included in SUITES_I.\"\r\n\r\n- 5.3.2: This seems to be the first occurrence of the\r\n   \"<<..>>\" symbolism. A forward ref to C.1 would be good.\r\n\r\n- 5.3.3: is it ok to pass EAD_2 to the application before\r\n   checking authentication?\r\n\r\n- section 6: I found this v. hard to follow. Suspect a\r\n   re-write for clarity would be good.\r\n\r\n- section 8: \"EDHOC provides a minimum of 64-bit\r\n   security...\" could do with a reference to wherever that\r\nconclusion is derived. And 64-bit security isn't quite \"in\r\nline\" with TLS is it?\r\n\r\n- 8.7: stating that a \"truly random seed MUST\" be provided\r\n   isn't a sensible use of 2119, and isn't entirely under\r\nthe control of an implementer (maybe the section title\r\ncould be re-thought?).\r\n\r\n- 8.7 (or somewhere): if some random values are visible\r\n   (connection identifiers?) then it can make sense to\r\nderive those from a different random stream compared to\r\nthat used for randomly picking secrets. That way the\r\npublicly visible random numbers are less likely to leak\r\ninformation about the state of the PRNG used for secrets.\r\nCould be worth a mention.\r\n\r\n- 8.7: discarding a message_1 because of G_X\r\n   collision/reflection should also be stated earlier - it\r\ncould very easily be missed here.\r\n\r\n- 8.7: TEE => \"cannot\" be tampered is a little optimistic\r\n   IMO.\r\n\r\n- 9.10: The well-known URI is not mentioned at all in the\r\n   body of the spec but only here and then in an appendix. A\r\nforward ref to A.3 from 9.10 is probably enough to fix. The\r\nsame may apply to other IANA registrations I guess.\r\n\r\n- 10.1: are we confident that all the normative I-Ds will\r\n   become RFCs in a sufficiently timely manner? I've no\r\nspecific reason to think they won't, and they're all far\r\nalong the process, but sometimes transitive dependencies\r\ncan cause a lot of delay.  (Very sadly, we can't just ask\r\nJim about this.)\r\n\r\n- A.1: \"byte string shaped\"? what's that mean?\r\n\r\n- Appendix D: Point 6 mentions an EUI-64. I'm not clear how\r\n   that'd be used in edhoc.\r\n\r\n- The URL for SIGMA can use https so change to [1]\r\n   [1] https://webee.technion.ac.il/~hugo/sigma-pdf.pdf\r\n",
       "createdAt": "2021-11-11T07:16:00Z",
-      "updatedAt": "2021-12-18T11:10:03Z",
+      "updatedAt": "2022-01-11T09:27:46Z",
       "closedAt": null,
       "comments": [
         {
@@ -7958,10 +7965,12 @@
       "assignees": [
         "gselander"
       ],
-      "labels": [],
+      "labels": [
+        "PR exists"
+      ],
       "body": "https://mailarchive.ietf.org/arch/msg/lake/01_qDnQqJlsem3KT58F6XNVbSQ4/\r\n\r\n----\r\n\r\ns1.2 (nit): If s1.2 is supposed to be an applicability statement in the context of RFC 2026, can we call it that. i.e., r/Use of EDHOC/Applicability Statement. \r\n\r\nrevised: And then, I see section 3.9. Maybe instead of renaming s1.2, a forward pointer to s3.9 is all that is needed to say that an applicability statement is required?\r\n\r\ns2, 2nd para (nit): refer to both because it\u2019s (D)TLS and not just TLS?  I.e.,\r\ns/(D)TLS 1.3 [RFC8446]/(D)TLS 1.3 [RFC8446] [I-D.ietf-tls-dtls13]\r\n\r\ns2, 2nd para (nit): I think you can safely drop the 2nd reference to IKEv2\r\ns/like IKEv2 [RFC7296],/like IKEv2,\r\n\r\ns3.2/s3.5.2 (question): Smarter people than I have devised plans to allow mixing of different METHODs. How does this impact the key usage extension present in certificates? In other words, are METHODS 1 and 2 suggesting that a DS and DH key be used together and does that violate any kind of restrictions on the key usage settings for certificates?\r\n\r\ns3.4 (nit): Is transport of error messages, as noted by s6 (2nd para), needed in the list.\r\n\r\ns3.5 para after the bullets (nit): I think you are trying to say the credentials have to be the same type, i.e., you can\u2019t have PGP one one side and x.509 on the other. I am not sure that the following is the best wording:\r\n\r\ns/Identical authentication credentials need to be established in both endpoints to be able to verify integrity./The same type of authentication credentials are needed baby the endpoints to be able to verify integrity.\r\n\r\ns3.5.1, 1st para (nit): At first I thought for sure this had to be a MUST, but it says or application so I am not sure:\r\n\r\nThe EDHOC implementation or the application must enforce information about the intended endpoint \u2026\r\n\r\ns3.5.1 (nit): expand on first use NAI & EUI\r\n\r\ns3.5.1, 1st bullet (nit): Often we refer to this a Proof-of-Possession so maybe you could say that:\r\n\r\ns/EDHOC provides\r\n      proof that the other party possesses the private authentication\r\n      key corresponding to the public authentication key in its\r\n      certificate./EDHOC provides\r\n      proof that the other party possesses the private authentication\r\n      key corresponding to the public authentication key in its\r\n      certificate, which is also known as proof-of-possesion.\r\n\r\ns3.5.1, 1st bullet (question): This seems like the \u201cmixing\u201d discussed in s3.2, relies on the identity provide in the certificate?\r\n\r\n    The certification path provides proof that the\r\n    subject of the certificate owns the public key in the certificate.\r\n\r\ns3.5.2 (question): related to comment on s3.2.\r\n\r\ns3.5.3, 2nd para (nit): Could point to RFC 3279/5480 for some key usages for ECDSA and RFC 8410 for x25519/x448.\r\n\r\nIn\r\n   X.509 and C509 certificates, signature keys typically have key usage\r\n   \"digitalSignature\" and Diffie-Hellman public keys typically have key\r\n   usage \"keyAgreement\" [RFC3279][RFC8410].\r\n\r\ns3.6 (nit): refer to both?:\r\ns/TLS 1.3 [RFC8446]/\r\n(D)TLS 1.3 [RFC8446] [I-D.ietf-tls-dtls13]\r\n\r\ns3.5.3 (question): EDHOC seems to assume you only provide the reference for the initiator's/responder\u2019s. Was there any thought it to providing references for the rest of the certification path up to but not including the Root CA\u2019s certificate? I mean technically they can also be in there certificate provided so not necessarily needed.\r\n\r\ns3.6, CNSA ref (nit): I made a similar comment against the ZRTP spec when they said their alg suites were compliant with Suite B \u2026 probably best to say Suite 24 and 25 use algorithms in CNSA and leave the word \u201ccompatible\u201d for \u201cthem\u201d to say.\r\n\r\ns3.8 (comment): Wow .. so you can send in the CSR in EAD, if it works then you can use the cert in the later messages (e.g., kind of like EAP)? Sure hope there\u2019s no kind of CSR-related error. And, you know that the CA gets to decide the name right. Sorry just trying to digest it all.\r\n\r\ns4.3 (nit): s/kan/can\r\n\r\ns4.4/s5.1 (question): Do you need to provide advice on when to delete the old PRK_4x3m? I.e., does the peer that sent this need to wait for some kind of confirmation before deleting it?\r\n\r\ns5.1 (question): Is a state diagram needed? One thing people clamored for from TLS was a state machine. Maybe a diagram isn\u2019t needed because there are so few states?\r\n\r\ns5.1 (comment, no action required): Cute. Deduplication is how to deal with message reply ;)\r\n\r\ns5.2.1, s.5.3.1, s5.4.1, s5.5.1 (nit): is the \u201c,\u201d before the closing bracket right? e.g.,\r\n\r\nOLD:\r\n\r\n    ? EAD_1 : ead,\r\n}\r\n\r\nNEW:\r\n\r\n    ? EAD_1 : ead\r\n}\r\n\r\ns5.2.2 (question): If this this initiator processing section, how does the initiator know to truncate?\r\n\r\n  \u2026, truncated after the cipher suite selected for this\r\n  session.\r\n\r\ns5.2.3, s5.3.3, s5.4.3, s5.5.3, last sentence (question - probably being pedantic): If there is an error but an error message is not sent, is the session discontinued? How does the peer know it was discontinued if an error is not sent?\r\n\r\ns5.2.3, s5.3.3, s5.4.3, s5.5.3 (nit, which I am sure the RFC editor fix better than I could, but I couldn\u2019t help myself): Instead of the e.g., in middle of the MAY sentence maybe:\r\n\r\nOLD:\r\n\r\n   Sending error\r\n   messages is essential for debugging but MAY e.g., be skipped if a\r\n   session cannot be found or due to denial-of-service reasons, see\r\n   Section 8.6.\r\n\r\nNEW:\r\n\r\n   Sending error\r\n   messages is essential for debugging but MAY be skipped if, for\r\n   example, a\r\n   session cannot be found or due to denial-of-service reasons, see\r\n   Section 8.6.\r\n\r\ns6.1 (nit): To stop loops, should any peer that receives an ERR_CODE=0 discontinue the session? I.e., is that worth stating in the I-D?\r\n\r\ns6.2 (nit): It\u2019s really more \u201cFreeform\u201d than unspecified right? I mean the string is required so it\u2019s definitely not unspecified per se.\r\n\r\ns6.3.2, 2nd to last para (nit): s/shall/SHALL\r\n\r\ns6.3.2/s5.2.1 (nit): Might be worth noting earlier that SUITES_R is not important. Also, s5.2.1, mentioned SUITES_I, but s5.2.2 does not mention SUITES_R.\r\n\r\ns7, last para (nit): s/To enable as much interoperability as we can\r\n   reasonably achieve,/To enable as much interoperability as possible,\r\n\r\ns8 (question): Isn\u2019t some kind of consideration needed to address the use of PSKs shared by more than two? See RFC 8773 for some considerations wrt to group key sharing and that sharing impact on authentication.\r\n\r\ns8.3 (nit): You can informatively refer to RFC 6194 to slam the door on SHA-1.\r\n\r\ns9 and onwaard (apologies): I ran out of steam.\r\n\r\ns? (question): Is a peer supposed to check status information for its peer\u2019s certificate/key? \r\n\r\nI-D Nit complaints (not all of them because the DOWNREFs (mostly) looked intentional):\r\n\r\n== Missing Reference: 'RFC9052' is mentioned on line 2411, but not defined\r\n",
       "createdAt": "2021-12-15T07:56:29Z",
-      "updatedAt": "2021-12-20T17:11:38Z",
+      "updatedAt": "2022-01-11T09:28:34Z",
       "closedAt": null,
       "comments": []
     },
@@ -7977,11 +7986,12 @@
         "emanjon"
       ],
       "labels": [
+        "Close?",
         "PR exists"
       ],
       "body": "Comment from Lo\u00efc: \r\n\r\nhttps://mailarchive.ietf.org/arch/msg/lake/4ErIcI5oqQT0utmwbpdydQGOUVI/\r\n\r\n> It seems that \"EdDSA\" is not the proper wording to use in the draft (at least in Section 9.2). I quote the original paper by Bernstein, Duif, Lange, Schwabe and Yang [1]: \r\n> - \" This section specifies the signature system used in this paper, and a generalized signature system EdDSA that can be used with other choices of elliptic curves.\"\r\n> - \" Our recommended curve for EdDSA is a twisted Edwards curve birationally equivalent to the curve Curve25519 [...] We use the name Ed25519 for EdDSA with this particular choice of curve.\"\r\n> Therefore \"Ed25519\" should be used in place of \"EdDSA\" (at least in Section 9.2). \r\n> \r\n> [1] High-speed high-security signature, Bernstein, Duif, Lange, Schwabe and Yang, 2011. https://protect2.fireeye.com/v1/url?k=31323334-501d5122-fe22d327-454445555731-1b801206d8bfce4f&q=1&e=371d7c78-5c57-49c2-8785-e20bf038bf86&u=https%3A%2F%2Fed25519.cr.yp.to%2Fed25519-20110926.pdf\r\n> ",
       "createdAt": "2021-12-16T09:48:37Z",
-      "updatedAt": "2021-12-21T14:47:12Z",
+      "updatedAt": "2022-01-11T09:28:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -10500,7 +10510,7 @@
       "labels": [],
       "body": "#201",
       "createdAt": "2021-12-21T07:58:59Z",
-      "updatedAt": "2021-12-22T12:41:36Z",
+      "updatedAt": "2022-01-12T07:36:35Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "bde77d95a0d699e6cb8242edef50fa3b41b33c71",
@@ -10512,7 +10522,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOEItXAM4yquwg",
+          "commit": {
+            "abbreviatedOid": "4ffbae1"
+          },
+          "author": "pbtgit",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-01-12T07:36:35Z",
+          "updatedAt": "2022-01-12T07:36:35Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "\"An attacker can affect which of the two nodes\u2019 preferred cipher suites will be used by blocking the other exchange.\"\r\nWhat are the exact pre-conditions for such an attack? ",
+              "createdAt": "2022-01-12T07:36:35Z",
+              "updatedAt": "2022-01-12T07:36:35Z"
+            }
+          ]
+        }
+      ]
     },
     {
       "number": 221,
@@ -10552,13 +10583,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2022-01-10T15:59:33Z",
-      "updatedAt": "2022-01-10T18:46:48Z",
+      "updatedAt": "2022-01-11T08:18:56Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "bde77d95a0d699e6cb8242edef50fa3b41b33c71",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "updates-following-review-by-Sean",
-      "headRefOid": "ba09c07bf76b8e6f7e9f8e641ccfc9a983fcaf6a",
+      "headRefOid": "4fcef3143b2fffd21813d0c14a5bc2469d690612",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
