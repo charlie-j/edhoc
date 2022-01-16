@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-01-13T01:13:31.447213+00:00",
+  "timestamp": "2022-01-16T01:14:36.528945+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -7206,7 +7206,7 @@
       ],
       "body": "The confidentiality protection in EDHOC does not conceal the length of the identifiers ID_CRED_I and ID_CRED_R. We should maybe add OPTIONAL padding for deployments wanting to give eavesdroppers less information regarding the length of these identifiers. This could quite easily be achieved by allowign 0 or more simple values (e.g. true) in the beginning of the plaintexts.\r\n\r\n```\r\nOLD:\r\nplaintext = ( ID_CRED_R / bstr / int, Signature_or_MAC_2, ? EAD_2 )\r\n\r\nNEW:\r\nplaintext = ( *true, ID_CRED_R / bstr / int, Signature_or_MAC_2, ? EAD_2 )\r\n\r\n```",
       "createdAt": "2021-10-29T08:23:18Z",
-      "updatedAt": "2022-01-12T14:38:35Z",
+      "updatedAt": "2022-01-13T10:25:47Z",
       "closedAt": null,
       "comments": [
         {
@@ -7285,6 +7285,13 @@
           "body": "Seems like we agree on the high level stuff. Me and G\u00f6ran spotted that \"remove\" and \"discard\" might be the wrong words. The requirement should be on being able to parse. G\u00f6ran will improve the text. After that we are likely ready to merge\r\n\r\n",
           "createdAt": "2022-01-12T14:38:35Z",
           "updatedAt": "2022-01-12T14:38:35Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I made another commit: 4ee9fc02\r\n\r\nMTI section now says:\r\n\r\n> Implementations MAY support padding of plaintext when sending messages. Implementations MUST support padding of plaintext when receiving messages, i.e. MUST be able to parse padded messages.\r\n\r\nAlso some editorials. A difficulty to express what length is hidden since \"plaintext\" is defined as plain text + padding. This lead to the wording \"unpadded plaintext\":\r\n\r\n> PAD = 1*true is padding that may be used to hide the length of the unpadded plaintext\r\n\r\nI kept \"discard\" in the other parts because I didn't find any good word to substitute for. I didn't like \"ignore\" or similar as that action seemed to indicate \"do nothing\". So now it says:\r\n\r\n> Decrypt CIPHERTEXT_2, see {{asym-msg2-proc}}, and discard padding, if present.\r\n\r\n\r\n",
+          "createdAt": "2022-01-13T10:25:47Z",
+          "updatedAt": "2022-01-13T10:25:47Z"
         }
       ]
     },
@@ -8091,7 +8098,7 @@
       "labels": [],
       "body": "From Sean's review:\r\n\r\ns5.1 (question): Is a state diagram needed? One thing people clamored for from TLS was a state machine. Maybe a diagram isn\u2019t needed because there are so few states?",
       "createdAt": "2022-01-10T15:51:12Z",
-      "updatedAt": "2022-01-10T17:34:18Z",
+      "updatedAt": "2022-01-14T08:27:59Z",
       "closedAt": null,
       "comments": [
         {
@@ -8100,6 +8107,13 @@
           "body": "Not sure it is needed in EDHOC. TLS has three distict states (early data, handshake, post handshake) and the key to use depend on the state irrespective of message type. EDHOC has none of that. A key derivation figure would maybe make more sense if we are to add anything.",
           "createdAt": "2022-01-10T17:34:18Z",
           "updatedAt": "2022-01-10T17:34:18Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Suggestion by Goran to add a reference to an academic paper that has a figure with the key derivation\r\n",
+          "createdAt": "2022-01-14T08:27:58Z",
+          "updatedAt": "2022-01-14T08:27:58Z"
         }
       ]
     }
@@ -10107,13 +10121,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-10-30T09:54:48Z",
-      "updatedAt": "2021-12-20T20:06:45Z",
+      "updatedAt": "2022-01-13T10:24:51Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "2c94da1e6d08aa418ae2b2d573732d23a7b83252",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Padding-and-Privacy",
-      "headRefOid": "1d0e09a2ca3f701a46e55337d17c16f8e7f8f6dc",
+      "headRefOid": "4ee9fc02ced6f2c637957dd7a88d698e5f99520e",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
