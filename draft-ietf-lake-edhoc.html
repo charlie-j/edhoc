@@ -2028,6 +2028,7 @@ info = (
 <li class="normal" id="section-4.3-7.1">K_4 and IV_4 are derived with the EDHOC-Exporter using the empty CBOR byte string h'' as context, and labels "EDHOC_K_4" and "EDHOC_IV_4", respectively. IVs are only used if the EDHOC AEAD algorithm uses IVs.<a href="#section-4.3-7.1" class="pilcrow">¶</a>
 </li>
         </ul>
+<p id="section-4.3-8">With SHA-256, no context, and OKM length smaller than 24, any label longer than 20 characters requires an additional iteration of the hash function to compute. The labels in this specification have all been chosen to fit within this limit.<a href="#section-4.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="keyupdate">
@@ -2775,14 +2776,14 @@ Reference: [[this document]]
 </div>
 <div class="alignLeft art-text artwork" id="section-9.1-4">
 <pre>
-Label: OSCORE_Master_Secret
+Label: OSCORE_Secret
 Description: Derived OSCORE Master Secret
 Reference: [[this document]]
 </pre><a href="#section-9.1-4" class="pilcrow">¶</a>
 </div>
 <div class="alignLeft art-text artwork" id="section-9.1-5">
 <pre>
-Label: OSCORE_Master_Salt
+Label: OSCORE_Salt
 Description: Derived OSCORE Master Salt
 Reference: [[this document]]
 </pre><a href="#section-9.1-5" class="pilcrow">¶</a>
@@ -3390,13 +3391,13 @@ Reference: [[this document]]
 <li class="normal" id="appendix-A.2-3.1">The Master Secret and Master Salt are derived by using the EDHOC-Exporter interface, see <a href="#exporter" class="xref">Section 4.3</a>.<a href="#appendix-A.2-3.1" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="appendix-A.2-4">The EDHOC Exporter Labels for deriving the OSCORE Master Secret and the OSCORE Master Salt, are "OSCORE_Master_Secret" and "OSCORE_Master_Salt", respectively.<a href="#appendix-A.2-4" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-4">The EDHOC Exporter Labels for deriving the OSCORE Master Secret and the OSCORE Master Salt, are "OSCORE_Secret" and "OSCORE_Salt", respectively.<a href="#appendix-A.2-4" class="pilcrow">¶</a></p>
 <p id="appendix-A.2-5">The context parameter is h'' (0x40), the empty CBOR byte string.<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
 <p id="appendix-A.2-6">By default, key_length is the key length (in bytes) of the application AEAD Algorithm of the selected cipher suite for the EDHOC session. Also by default, salt_length has value 8. The Initiator and Responder MAY agree out-of-band on a longer key_length than the default and on a different salt_length.<a href="#appendix-A.2-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="appendix-A.2-7">
 <pre>
-Master Secret = EDHOC-Exporter("OSCORE_Master_Secret", h'', key_length)
-Master Salt   = EDHOC-Exporter("OSCORE_Master_Salt", h'', salt_length)
+Master Secret = EDHOC-Exporter("OSCORE_Secret", h'', key_length)
+Master Salt   = EDHOC-Exporter("OSCORE_Salt", h'', salt_length)
 </pre><a href="#appendix-A.2-7" class="pilcrow">¶</a>
 </div>
 <ul class="normal">
