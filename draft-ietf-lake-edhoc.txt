@@ -2143,11 +2143,20 @@ Table of Contents
    messages.  Using the same EAD_1 in several EDHOC sessions allows
    passive eavesdroppers to correlate the different sessions.  Another
    consideration is that the list of supported cipher suites may
-   potentially be used to identify the application.
+   potentially be used to identify the application.  The Initiator and
+   the Responder must also make sure that unauthenticated data does not
+   trigger any harmful actions.  In particular, this applies to EAD_1
+   and error messages.
 
-   The Initiator and the Responder must also make sure that
-   unauthenticated data does not trigger any harmful actions.  In
-   particular, this applies to EAD_1 and error messages.
+   An attacker observing network traffic may use connection identifiers
+   sent in clear in EDHOC or the subsequent application protocol to
+   correlate packets sent on different paths or at different times.  The
+   attacker may use this information for traffic flow analysis or to
+   track an endpoint.  Application protocols using connection
+   identifiers from EDHOC SHOULD provide mechanisms to update the
+   connection identifier and MAY provide mechanisms to issue several
+   simultaneously active connection identifiers.  See [RFC9000] for a
+   non-constrained example of such mechanisms.
 
 8.6.  Updated Internet Threat Model Considerations
 
@@ -2863,6 +2872,11 @@ Table of Contents
               and C. Wood, "Randomness Improvements for Security
               Protocols", RFC 8937, DOI 10.17487/RFC8937, October 2020,
               <https://www.rfc-editor.org/info/rfc8937>.
+
+   [RFC9000]  Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
+              Multiplexed and Secure Transport", RFC 9000,
+              DOI 10.17487/RFC9000, May 2021,
+              <https://www.rfc-editor.org/info/rfc9000>.
 
    [SECG]     "Standards for Efficient Cryptography 1 (SEC 1)", May
               2009, <https://www.secg.org/sec1-v2.pdf>.
