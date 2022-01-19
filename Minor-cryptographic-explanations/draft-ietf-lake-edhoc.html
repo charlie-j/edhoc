@@ -1013,11 +1013,11 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">EDHOC</td>
-<td class="right">December 2021</td>
+<td class="right">January 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Selander, et al.</td>
-<td class="center">Expires 25 June 2022</td>
+<td class="center">Expires 23 July 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1030,12 +1030,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-ietf-lake-edhoc</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-12-22" class="published">22 December 2021</time>
+<time datetime="2022-01-19" class="published">19 January 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-06-25">25 June 2022</time></dd>
+<dd class="expires"><time datetime="2022-07-23">23 July 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1088,7 +1088,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 June 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1097,7 +1097,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2021 IETF Trust and the persons identified as the
+            Copyright (c) 2022 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -2736,7 +2736,7 @@ Initiator                                                   Responder
 <a href="#section-8.8" class="section-number selfRef">8.8. </a><a href="#name-implementation-consideratio" class="section-name selfRef">Implementation Considerations</a>
         </h3>
 <p id="section-8.8-1">The availability of a secure random number generator is essential for the security of EDHOC. If no true random number generator is available, a truly random seed MUST be provided from an external source and used with a cryptographically secure pseudorandom number generator. As each pseudorandom number must only be used once, an implementation needs to get a new truly random seed after reboot, or continuously store state in nonvolatile memory, see (<span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>, Appendix B.1.1) for issues and solution approaches for writing to nonvolatile memory. Intentionally or unintentionally weak or predictable pseudorandom number generators can be abused or exploited for malicious purposes. <span>[<a href="#RFC8937" class="xref">RFC8937</a>]</span> describes a way for security protocol implementations to augment their (pseudo)random number generators using a long-term private key and a deterministic signature function. This improves randomness from broken or otherwise subverted random number generators. The same idea can be used with other secrets and functions such as a Diffie-Hellman function or a symmetric secret and a PRF like HMAC or KMAC. It is RECOMMENDED to not trust a single source of randomness and to not put unaugmented random numbers on the wire.<a href="#section-8.8-1" class="pilcrow">¶</a></p>
-<p id="section-8.8-2">If ECDSA is supported, "deterministic ECDSA" as specified in <span>[<a href="#RFC6979" class="xref">RFC6979</a>]</span> MAY be used. Pure deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA have gained popularity over randomized ECDSA as their security do not depend on a source of high-quality randomness. Recent research has however found that implementations of these signature algorithms may be vulnerable to certain side-channel and fault injection attacks due to their determinism. See e.g., Section 1 of <span>[<a href="#I-D.mattsson-cfrg-det-sigs-with-noise" class="xref">I-D.mattsson-cfrg-det-sigs-with-noise</a>]</span> for a list of attack papers. As suggested in Section 6.1.2 of <span>[<a href="#I-D.ietf-cose-rfc8152bis-algs" class="xref">I-D.ietf-cose-rfc8152bis-algs</a>]</span> this can be addressed by combining randomness and determinism while still being compatible with all existing EdDSA verifiers. Appendix D of <span>[<a href="#I-D.ietf-lwig-curve-representations" class="xref">I-D.ietf-lwig-curve-representations</a>]</span> described how Montgomery curves such as X25519 and X448 and (twisted) Edwards curves as curves such as Ed25519 and Ed448 can mapped to and from short-Weierstrass form for implementation on platforms that accelerate elliptic curve group operations in short-Weierstrass form.<a href="#section-8.8-2" class="pilcrow">¶</a></p>
+<p id="section-8.8-2">If ECDSA is supported, "deterministic ECDSA" as specified in <span>[<a href="#RFC6979" class="xref">RFC6979</a>]</span> MAY be used. Pure deterministic elliptic-curve signatures such as deterministic ECDSA and EdDSA have gained popularity over randomized ECDSA as their security do not depend on a source of high-quality randomness. Recent research has however found that implementations of these signature algorithms may be vulnerable to certain side-channel and fault injection attacks due to their determinism. See e.g., Section 1 of <span>[<a href="#I-D.mattsson-cfrg-det-sigs-with-noise" class="xref">I-D.mattsson-cfrg-det-sigs-with-noise</a>]</span> for a list of attack papers. As suggested in Section 6.1.2 of <span>[<a href="#I-D.ietf-cose-rfc8152bis-algs" class="xref">I-D.ietf-cose-rfc8152bis-algs</a>]</span> this can be addressed by combining randomness and determinism while still being compatible with all existing EdDSA verifiers. Appendix D of <span>[<a href="#I-D.ietf-lwig-curve-representations" class="xref">I-D.ietf-lwig-curve-representations</a>]</span> describes how Montgomery curves such as X25519 and X448 and (twisted) Edwards curves as curves such as Ed25519 and Ed448 can mapped to and from short-Weierstrass form for implementation on platforms that accelerate elliptic curve group operations in short-Weierstrass form.<a href="#section-8.8-2" class="pilcrow">¶</a></p>
 <p id="section-8.8-3">All private keys, symmetric keys, and IVs MUST be secret. Implementations should provide countermeasures to side-channel attacks such as timing attacks. Intermediate computed values such as ephemeral ECDH keys and ECDH shared secrets MUST be deleted after key derivation is completed.<a href="#section-8.8-3" class="pilcrow">¶</a></p>
 <p id="section-8.8-4">The Initiator and the Responder are responsible for verifying the integrity and validity of certificates. The selection of trusted CAs should be done very carefully and certificate revocation should be supported. The choice of revocation mechanism is left to the application. For example, in case of X.509 certificates, Certificate Revocation Lists <span>[<a href="#RFC5280" class="xref">RFC5280</a>]</span> or OCSP <span>[<a href="#RFC6960" class="xref">RFC6960</a>]</span> may be used. Verification of validity may require the use of a Real-Time Clock (RTC). The private authentication keys MUST be kept secret, only the Responder SHALL have access to the Responder's private authentication key and only the Initiator SHALL have access to the Initiator's private authentication key.<a href="#section-8.8-4" class="pilcrow">¶</a></p>
 <p id="section-8.8-5">The Initiator and the Responder are allowed to select the connection identifiers C_I and C_R, respectively, for the other party to use in the ongoing EDHOC protocol as well as in a subsequent application protocol (e.g., OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>). The choice of connection identifier is not security critical in EDHOC but intended to simplify the retrieval of the right security context in combination with using short identifiers. If the wrong connection identifier of the other party is used in a protocol message it will result in the receiving party not being able to retrieve a security context (which will terminate the protocol) or retrieve the wrong security context (which also terminates the protocol as the message cannot be verified).<a href="#section-8.8-5" class="pilcrow">¶</a></p>
@@ -3283,7 +3283,7 @@ Reference: [[this document]]
 <dd class="break"></dd>
 <dt id="I-D.ietf-cose-cbor-encoded-cert">[I-D.ietf-cose-cbor-encoded-cert]</dt>
         <dd>
-<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-02</span>, <time datetime="2021-07-12" class="refDate">12 July 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-cose-cbor-encoded-cert-02.txt">https://www.ietf.org/archive/id/draft-ietf-cose-cbor-encoded-cert-02.txt</a>&gt;</span>. </dd>
+<span class="refAuthor">Mattsson, J. P.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Raza, S.</span>, <span class="refAuthor">Höglund, J.</span>, and <span class="refAuthor">M. Furuhed</span>, <span class="refTitle">"CBOR Encoded X.509 Certificates (C509 Certificates)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-cose-cbor-encoded-cert-03</span>, <time datetime="2022-01-10" class="refDate">10 January 2022</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-cose-cbor-encoded-cert-03.txt">https://www.ietf.org/archive/id/draft-ietf-cose-cbor-encoded-cert-03.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-lake-reqs">[I-D.ietf-lake-reqs]</dt>
         <dd>
