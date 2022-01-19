@@ -1572,6 +1572,7 @@ Initiator                                                   Responder
 <a href="#name-authentication-keys-for-met" class="selfRef">Authentication Keys for Method Types</a>
           </figcaption></figure>
 </div>
+<p id="section-3.2-4">EDHOC does not have a dedicated message field to indicate protocol version. Breaking changes to EDHOC can be introduced by specifying and registering new methods.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ci">
@@ -2555,7 +2556,7 @@ error = (
         <h3 id="name-unspecified">
 <a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-unspecified" class="section-name selfRef">Unspecified</a>
         </h3>
-<p id="section-6.2-1">Error code 1 is used for errors that do not have a specific error code defined. ERR_INFO MUST be a text string containing a human-readable diagnostic message written in English. The diagnostic text message is mainly intended for software engineers that during debugging need to interpret it in the context of the EDHOC specification. The diagnostic message SHOULD be provided to the calling application where it SHOULD be logged.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">Error code 1 is used for errors that do not have a specific error code defined. ERR_INFO MUST be a text string containing a human-readable diagnostic message written in English, for example "Method not supported". The diagnostic text message is mainly intended for software engineers that during debugging need to interpret it in the context of the EDHOC specification. The diagnostic message SHOULD be provided to the calling application where it SHOULD be logged.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="wrong-selected">
