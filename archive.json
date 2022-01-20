@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-01-16T01:14:36.528945+00:00",
+  "timestamp": "2022-01-20T01:18:39.113469+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -3485,7 +3485,7 @@
       "id": "MDU6SXNzdWU4MjEwOTg3ODQ=",
       "title": "Effects of limited amounts of randomness",
       "url": "https://github.com/lake-wg/edhoc/issues/81",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chrysn",
       "authorAssociation": "NONE",
       "assignees": [
@@ -3497,8 +3497,8 @@
       ],
       "body": "Randomness can be limited in constrained devices, and that can affect EDHOC.\r\n\r\n8.2. Cryptographic Considerations does talk about the necessity of randomness, but it did not become apparent to me from reading that alone that without a new fresh key I not only lose liveness and open up to interleaving, but also run into loss of all security properties when deriving an OSCORE secret from it and neither party has any randomness to put in.\r\n\r\nIf one of the involved parties of EDHOC is just scraping together a few bits of entropy (which is as good as having none), is there a direction in which EDHOC can be used with limited loss of properties? (Gut feeling says no because an attacker can replay a previous EDHOC exchange with them).\r\n\r\nIt may be helpful to also outline how a monotonous counter (similar to that of OSCORE B.1.1) can be used together with a private secret to obtain sufficient randomness. (That may follow from RFC 8937 already, not sure).",
       "createdAt": "2021-03-03T13:14:20Z",
-      "updatedAt": "2021-12-16T12:58:38Z",
-      "closedAt": null,
+      "updatedAt": "2022-01-19T09:51:24Z",
+      "closedAt": "2022-01-19T09:51:23Z",
       "comments": [
         {
           "author": "chrysn",
@@ -3555,6 +3555,13 @@
           "body": "The new text looks good to me.\r\n\r\nIt does not give permission to do the very special case I wanted to do (allow reusing a G_X if and only if the initializer commits to not ever using it again as soon as it has acted on a message 2), but from earlier discussion I conclude that opening up for that would be excessive in this document, and anyone who chooses to not go with what is described best practice will need to make very good own security analyses anyway.",
           "createdAt": "2021-12-16T12:58:38Z",
           "updatedAt": "2021-12-16T12:58:38Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this as #197 is now merged.",
+          "createdAt": "2022-01-19T09:51:23Z",
+          "updatedAt": "2022-01-19T09:51:23Z"
         }
       ]
     },
@@ -7676,7 +7683,7 @@
       "id": "I_kwDOEItXAM4-82xn",
       "title": "Length of labels, removal of master",
       "url": "https://github.com/lake-wg/edhoc/issues/204",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -7687,8 +7694,8 @@
       ],
       "body": "RFC 8446 states:\r\n   \"Note: With common hash functions, any label longer than 12 characters\r\n   requires an additional iteration of the hash function to compute.\r\n   The labels in this specification have all been chosen to fit within\r\n   this limit.\"\r\n\r\n12 is specific for TLS, but even if the number is slighty higher for EDHOC the following labels might currently require an extra iteration.\r\n\r\n   Label: OSCORE_Master_Secret\r\n   Label: OSCORE_Master_Salt\r\n\r\nI would suggest we calculate the exact length for EDHOC. Add that length as a consideration in the draft. And shorted down any long labels to not be longer.\r\n",
       "createdAt": "2021-11-17T13:36:06Z",
-      "updatedAt": "2021-12-16T12:44:44Z",
-      "closedAt": null,
+      "updatedAt": "2022-01-19T10:11:01Z",
+      "closedAt": "2022-01-19T10:11:00Z",
       "comments": [
         {
           "author": "emanjon",
@@ -7710,6 +7717,13 @@
           "body": "Appreciated, as these are strings lugged around in every firmware update.",
           "createdAt": "2021-12-16T12:44:44Z",
           "updatedAt": "2021-12-16T12:44:44Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing since #205 is merged.",
+          "createdAt": "2022-01-19T10:11:00Z",
+          "updatedAt": "2022-01-19T10:11:00Z"
         }
       ]
     },
@@ -7893,7 +7907,7 @@
       "id": "I_kwDOEItXAM5AK8Ok",
       "title": "Security considerations on connection IDs",
       "url": "https://github.com/lake-wg/edhoc/issues/213",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -7905,9 +7919,17 @@
       ],
       "body": "Based on the first comment in Stephen's review #202.",
       "createdAt": "2021-12-10T09:17:49Z",
-      "updatedAt": "2021-12-18T18:43:50Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2022-01-19T10:33:31Z",
+      "closedAt": "2022-01-19T10:33:31Z",
+      "comments": [
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this since #219 is merged.",
+          "createdAt": "2022-01-19T10:33:31Z",
+          "updatedAt": "2022-01-19T10:33:31Z"
+        }
+      ]
     },
     {
       "number": 214,
@@ -7986,7 +8008,7 @@
       "id": "I_kwDOEItXAM5AfbUI",
       "title": "Ed25519 instead of EdDSA",
       "url": "https://github.com/lake-wg/edhoc/issues/218",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gselander",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -7998,8 +8020,8 @@
       ],
       "body": "Comment from Lo\u00efc: \r\n\r\nhttps://mailarchive.ietf.org/arch/msg/lake/4ErIcI5oqQT0utmwbpdydQGOUVI/\r\n\r\n> It seems that \"EdDSA\" is not the proper wording to use in the draft (at least in Section 9.2). I quote the original paper by Bernstein, Duif, Lange, Schwabe and Yang [1]: \r\n> - \" This section specifies the signature system used in this paper, and a generalized signature system EdDSA that can be used with other choices of elliptic curves.\"\r\n> - \" Our recommended curve for EdDSA is a twisted Edwards curve birationally equivalent to the curve Curve25519 [...] We use the name Ed25519 for EdDSA with this particular choice of curve.\"\r\n> Therefore \"Ed25519\" should be used in place of \"EdDSA\" (at least in Section 9.2). \r\n> \r\n> [1] High-speed high-security signature, Bernstein, Duif, Lange, Schwabe and Yang, 2011. https://protect2.fireeye.com/v1/url?k=31323334-501d5122-fe22d327-454445555731-1b801206d8bfce4f&q=1&e=371d7c78-5c57-49c2-8785-e20bf038bf86&u=https%3A%2F%2Fed25519.cr.yp.to%2Fed25519-20110926.pdf\r\n> ",
       "createdAt": "2021-12-16T09:48:37Z",
-      "updatedAt": "2022-01-11T09:28:56Z",
-      "closedAt": null,
+      "updatedAt": "2022-01-19T10:01:31Z",
+      "closedAt": "2022-01-19T10:01:31Z",
       "comments": [
         {
           "author": "malishav",
@@ -8028,6 +8050,13 @@
           "body": "Note that \"EdDSA\" in Section 9.2 is not even \"Ed25519\". The choice between Ed25519 and Ed448 depends on the authentication key as specified by COSE.",
           "createdAt": "2021-12-21T14:41:09Z",
           "updatedAt": "2021-12-21T14:41:09Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing this since #221 is now merged.",
+          "createdAt": "2022-01-19T10:01:31Z",
+          "updatedAt": "2022-01-19T10:01:31Z"
         }
       ]
     },
@@ -8116,6 +8145,22 @@
           "updatedAt": "2022-01-14T08:27:58Z"
         }
       ]
+    },
+    {
+      "number": 226,
+      "id": "I_kwDOEItXAM5CCdz7",
+      "title": "Blocking one of multiple simultaneous EDHOC exchanges",
+      "url": "https://github.com/lake-wg/edhoc/issues/226",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Channeling question from @pbtgit on Section 8.8 (raised in #220 but worth a separate issue):\r\n\r\n\"Note that in the case of two simultaneous EDHOC exchanges where the nodes only complete one and where the nodes have different preferred cipher suites, an attacker can affect which of the two nodes\u2019 preferred cipher suites will be used by blocking the other exchange.\"\r\n\r\nWhat are the exact pre-conditions for such an attack?",
+      "createdAt": "2022-01-19T10:45:40Z",
+      "updatedAt": "2022-01-19T10:45:40Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -10121,7 +10166,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2021-10-30T09:54:48Z",
-      "updatedAt": "2022-01-13T10:24:51Z",
+      "updatedAt": "2022-01-19T10:21:28Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "2c94da1e6d08aa418ae2b2d573732d23a7b83252",
@@ -10132,7 +10177,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@emanjon \r\n@marco-tiloca-sics \r\n\r\nCan we merge this?",
+          "createdAt": "2022-01-19T10:14:04Z",
+          "updatedAt": "2022-01-19T10:14:04Z"
+        },
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Yes, the latest updates look good.",
+          "createdAt": "2022-01-19T10:21:28Z",
+          "updatedAt": "2022-01-19T10:21:28Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOEItXAM4v-uQ-",
@@ -10181,24 +10241,26 @@
       "id": "PR_kwDOEItXAM4uMY-i",
       "title": "Update to randomness considerations",
       "url": "https://github.com/lake-wg/edhoc/pull/197",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gselander",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2021-11-07T16:01:48Z",
-      "updatedAt": "2021-11-07T16:01:48Z",
+      "updatedAt": "2022-01-19T09:50:29Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "c6d8a560a1eb9f478dfc432c57e5a22fa3f321af",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "randomness-considerations",
       "headRefOid": "ad80d1beb67b73e6c441ae3cda38d6bf922c2b4b",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-01-19T09:50:28Z",
+      "mergedAt": "2022-01-19T09:50:28Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "8ac2ebbae25705b1ea6ba2f97738f79ea3d27779"
+      },
       "comments": [],
       "reviews": []
     },
@@ -10307,25 +10369,35 @@
       "id": "PR_kwDOEItXAM4vWMjT",
       "title": " Length of labels, removal of master (issue #204)",
       "url": "https://github.com/lake-wg/edhoc/pull/205",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "#204",
       "createdAt": "2021-12-03T07:42:03Z",
-      "updatedAt": "2021-12-03T07:42:03Z",
+      "updatedAt": "2022-01-19T10:10:13Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "7be24e41ee04a83db1911190b56a566c949b7631",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Length-of-labels,-removal-of-master-(issue-#204)",
       "headRefOid": "febb2babece014921ba7ded6385c5d77faab839a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2022-01-19T10:10:07Z",
+      "mergedAt": "2022-01-19T10:10:07Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "7c6cdd7e23cc7a775d9817e46badb7b93f1f85ad"
+      },
+      "comments": [
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Merging this as announced on the mailing list. ",
+          "createdAt": "2022-01-19T10:09:55Z",
+          "updatedAt": "2022-01-19T10:09:55Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -10451,24 +10523,26 @@
       "id": "PR_kwDOEItXAM4vxB4Y",
       "title": "Minor update on method support",
       "url": "https://github.com/lake-wg/edhoc/pull/216",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gselander",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2021-12-13T15:20:41Z",
-      "updatedAt": "2021-12-14T07:48:06Z",
+      "updatedAt": "2022-01-19T09:53:46Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "066b52f0fe1ca04f95ab77d819ef8f3bad4be595",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "new-method-text",
       "headRefOid": "7276292810df4ad7704ac84f59e2aa6f82988a38",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-01-19T09:53:36Z",
+      "mergedAt": "2022-01-19T09:53:35Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "87ecbd40925f2c10aae2194bbf8dff41ace67fc3"
+      },
       "comments": [],
       "reviews": [
         {
@@ -10491,24 +10565,26 @@
       "id": "PR_kwDOEItXAM4wCAvy",
       "title": "Security considerations on connection IDs",
       "url": "https://github.com/lake-wg/edhoc/pull/219",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "#213",
       "createdAt": "2021-12-18T11:20:59Z",
-      "updatedAt": "2021-12-18T11:21:00Z",
+      "updatedAt": "2022-01-19T09:56:13Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "bde77d95a0d699e6cb8242edef50fa3b41b33c71",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Security-considerations-on-connection-IDs",
       "headRefOid": "78aff16d120ea39d6e927799a2f7053a89efdad0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-01-19T09:56:07Z",
+      "mergedAt": "2022-01-19T09:56:07Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "cafd35ece381f8b4fdd8801ff9159397307d7409"
+      },
       "comments": [],
       "reviews": []
     },
@@ -10524,13 +10600,13 @@
       "labels": [],
       "body": "#201",
       "createdAt": "2021-12-21T07:58:59Z",
-      "updatedAt": "2022-01-12T07:36:35Z",
+      "updatedAt": "2022-01-19T10:46:26Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "bde77d95a0d699e6cb8242edef50fa3b41b33c71",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Minor-cryptographic-explanations",
-      "headRefOid": "41c89394e2be1c2c5eb41bce73f702af9b19b60a",
+      "headRefOid": "0723d969617e0e5c1646de53bd8d5fedd835199c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -10556,6 +10632,26 @@
               "updatedAt": "2022-01-12T07:36:35Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOEItXAM4zDvRu",
+          "commit": {
+            "abbreviatedOid": "0723d96"
+          },
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-01-19T10:46:25Z",
+          "updatedAt": "2022-01-19T10:46:26Z",
+          "comments": [
+            {
+              "originalPosition": 65,
+              "body": "I opened a separate issue #226 ",
+              "createdAt": "2022-01-19T10:46:25Z",
+              "updatedAt": "2022-01-19T10:46:26Z"
+            }
+          ]
         }
       ]
     },
@@ -10564,24 +10660,26 @@
       "id": "PR_kwDOEItXAM4wIxAt",
       "title": " Ed25519 instead of EdDSA #218",
       "url": "https://github.com/lake-wg/edhoc/pull/221",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "emanjon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": " Ed25519 instead of EdDSA #218",
       "createdAt": "2021-12-21T14:46:38Z",
-      "updatedAt": "2021-12-22T12:35:53Z",
+      "updatedAt": "2022-01-19T10:00:28Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "bde77d95a0d699e6cb8242edef50fa3b41b33c71",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Ed25519-instead-of-EdDSA-#218",
       "headRefOid": "6328163381dc8f4ce855a672645f674a6dad98f4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-01-19T10:00:28Z",
+      "mergedAt": "2022-01-19T10:00:28Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "560e7d66a7cea2c580669ef45ca030ee99205369"
+      },
       "comments": [],
       "reviews": []
     },
