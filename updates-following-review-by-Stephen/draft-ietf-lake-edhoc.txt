@@ -2217,7 +2217,7 @@ Table of Contents
 
    The availability of a secure random number generator is essential for
    the security of EDHOC.  If no true random number generator is
-   available, a random seed MUST be provided from an external source and
+   available, a random seed must be provided from an external source and
    used with a cryptographically secure pseudorandom number generator.
    As each pseudorandom number must only be used once, an implementation
    needs to get a unique input to the pseudorandom number generator
@@ -3394,7 +3394,7 @@ Appendix D.  Applicability Template
    5.  External authorization data is defined and processed as specified
        in [I-D.selander-ace-ake-authz].
 
-   6.  EUI-64 used as identity of endpoint (see example in
+   6.  EUI-64 is used as the identity of the endpoint (see example in
        Section 3.5.3).
 
    7.  No use of message_4: the application sends protected messages
