@@ -99,7 +99,7 @@ Table of Contents
      6.1.  Success
      6.2.  Unspecified Error
      6.3.  Wrong Selected Cipher Suite
-   7.  Mandatory-to-Implement Compliance Requirements
+   7.  Compliance Requirements
    8.  Security Considerations
      8.1.  Security Properties
      8.2.  Cryptographic Considerations
@@ -1945,7 +1945,7 @@ Table of Contents
          preference, in this case suites 5, 6 and 7, to mitigate a
              potential attack on the cipher suite negotiation.
 
-7.  Mandatory-to-Implement Compliance Requirements
+7.  Compliance Requirements
 
    An implementation may support only Initiator or only Responder.
 
