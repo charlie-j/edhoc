@@ -1017,7 +1017,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Selander, et al.</td>
-<td class="center">Expires 24 July 2022</td>
+<td class="center">Expires 25 July 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1030,12 +1030,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-ietf-lake-edhoc</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-01-20" class="published">20 January 2022</time>
+<time datetime="2022-01-21" class="published">21 January 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-07-24">24 July 2022</time></dd>
+<dd class="expires"><time datetime="2022-07-25">25 July 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1088,7 +1088,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 25 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1239,7 +1239,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
                 <p id="section-toc.1-1.8.2.4.1"><a href="#section-8.4" class="xref">8.4</a>.  <a href="#name-post-quantum-considerations" class="xref">Post-Quantum Considerations</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.5">
-                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="xref">8.5</a>.  <a href="#name-unprotected-data" class="xref">Unprotected Data</a></p>
+                <p id="section-toc.1-1.8.2.5.1"><a href="#section-8.5" class="xref">8.5</a>.  <a href="#name-unprotected-data-and-privac" class="xref">Unprotected Data and Privacy</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.6">
                 <p id="section-toc.1-1.8.2.6.1"><a href="#section-8.6" class="xref">8.6</a>.  <a href="#name-updated-internet-threat-mod" class="xref">Updated Internet Threat Model Considerations</a></p>
@@ -2221,9 +2221,11 @@ message_2 = (
               <p id="section-5.3.2-2.6.1">CIPHERTEXT_2 is calculated by using the Expand function as a binary additive stream cipher.<a href="#section-5.3.2-2.6.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.2-2.6.2.1">
-                  <p id="section-5.3.2-2.6.2.1.1">plaintext = ( ID_CRED_R / bstr / int, Signature_or_MAC_2, ? EAD_2 )<a href="#section-5.3.2-2.6.2.1.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.3.2-2.6.2.1.1">plaintext = ( ? PAD, ID_CRED_R / bstr / int, Signature_or_MAC_2, ? EAD_2 )<a href="#section-5.3.2-2.6.2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3.2-2.6.2.1.2.1">If ID_CRED_R contains a single 'kid' parameter, i.e., ID_CRED_R = { 4 : kid_R }, then only the byte string or integer kid_R is conveyed in the plaintext encoded accordingly as bstr or int.<a href="#section-5.3.2-2.6.2.1.2.1" class="pilcrow">¶</a>
+</li>
+                    <li class="normal" id="section-5.3.2-2.6.2.1.2.2">PAD = 1*true is padding that may be used to hide the length of the unpadded plaintext<a href="#section-5.3.2-2.6.2.1.2.2" class="pilcrow">¶</a>
 </li>
                   </ul>
 </li>
@@ -2249,7 +2251,7 @@ message_2 = (
 </li>
             <li class="normal" id="section-5.3.3-2.2">Retrieve the protocol state using the message correlation provided by the transport (e.g., the CoAP Token, the 5-tuple, or the prepended C_I, see <a href="#coap" class="xref">Appendix A.3</a>).<a href="#section-5.3.3-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-5.3.3-2.3">Decrypt CIPHERTEXT_2, see <a href="#asym-msg2-proc" class="xref">Section 5.3.2</a>.<a href="#section-5.3.3-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.3.3-2.3">Decrypt CIPHERTEXT_2, see <a href="#asym-msg2-proc" class="xref">Section 5.3.2</a>, and discard padding, if present.<a href="#section-5.3.3-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-5.3.3-2.4">Pass EAD_2 to the security application.<a href="#section-5.3.3-2.4" class="pilcrow">¶</a>
 </li>
@@ -2340,9 +2342,11 @@ where<a href="#section-5.4.2-2.4.3" class="pilcrow">¶</a></p>
                   </ul>
 </li>
                 <li class="normal" id="section-5.4.2-2.4.4.3">
-                  <p id="section-5.4.2-2.4.4.3.1">P = ( ID_CRED_I / bstr / int, Signature_or_MAC_3, ? EAD_3 )<a href="#section-5.4.2-2.4.4.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.4.2-2.4.4.3.1">P = ( ? PAD, ID_CRED_I / bstr / int, Signature_or_MAC_3, ? EAD_3 )<a href="#section-5.4.2-2.4.4.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.2-2.4.4.3.2.1">If ID_CRED_I contains a single 'kid' parameter, i.e., ID_CRED_I = { 4 : kid_I }, only the byte string or integer kid_I is conveyed in the plaintext encoded accordingly as bstr or int.<a href="#section-5.4.2-2.4.4.3.2.1" class="pilcrow">¶</a>
+</li>
+                    <li class="normal" id="section-5.4.2-2.4.4.3.2.2">PAD = 1*true is padding that may be used to hide the length of the unpadded plaintext<a href="#section-5.4.2-2.4.4.3.2.2" class="pilcrow">¶</a>
 </li>
                   </ul>
 </li>
@@ -2368,7 +2372,7 @@ CIPHERTEXT_3 is the 'ciphertext' of COSE_Encrypt0.<a href="#section-5.4.2-2.4.5"
 </li>
             <li class="normal" id="section-5.4.3-2.2">Retrieve the protocol state using the message correlation provided by the transport (e.g., the CoAP Token, the 5-tuple, or the prepended C_R, see <a href="#coap" class="xref">Appendix A.3</a>).<a href="#section-5.4.3-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-5.4.3-2.3">Decrypt and verify the COSE_Encrypt0 as defined in Sections 5.2 and 5.3 of <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>, with the EDHOC AEAD algorithm in the selected cipher suite, and the parameters defined in <a href="#asym-msg3-proc" class="xref">Section 5.4.2</a>.<a href="#section-5.4.3-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.4.3-2.3">Decrypt and verify the COSE_Encrypt0 as defined in Sections 5.2 and 5.3 of <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>, with the EDHOC AEAD algorithm in the selected cipher suite, and the parameters defined in <a href="#asym-msg3-proc" class="xref">Section 5.4.2</a>. Discard padding, if present.<a href="#section-5.4.3-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-5.4.3-2.4">Pass EAD_3 to the security application.<a href="#section-5.4.3-2.4" class="pilcrow">¶</a>
 </li>
@@ -2446,9 +2450,9 @@ where<a href="#section-5.5.2-2.1.3" class="pilcrow">¶</a></p>
                   </ul>
 </li>
                 <li class="normal" id="section-5.5.2-2.1.4.3">
-                  <p id="section-5.5.2-2.1.4.3.1">P = ( ? EAD_4 )<a href="#section-5.5.2-2.1.4.3.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.5.2-2.1.4.3.1">P = ( ? PAD, ? EAD_4 )<a href="#section-5.5.2-2.1.4.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.5.2-2.1.4.3.2.1">EAD_4 - protected external authorization data, see <a href="#AD" class="xref">Section 3.8</a>.<a href="#section-5.5.2-2.1.4.3.2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.5.2-2.1.4.3.2.1">EAD_4 - protected external authorization data, see <a href="#AD" class="xref">Section 3.8</a>. PAD = 1*true is padding that may be used to hide the length of the unpadded plaintext.<a href="#section-5.5.2-2.1.4.3.2.1" class="pilcrow">¶</a>
 </li>
                   </ul>
 </li>
@@ -2472,7 +2476,7 @@ CIPHERTEXT_4 is the 'ciphertext' of COSE_Encrypt0.<a href="#section-5.5.2-2.1.5"
 </li>
             <li class="normal" id="section-5.5.3-2.2">Retrieve the protocol state using the message correlation provided by the transport (e.g., the CoAP Token, the 5-tuple, or the prepended C_I, see <a href="#coap" class="xref">Appendix A.3</a>).<a href="#section-5.5.3-2.2" class="pilcrow">¶</a>
 </li>
-            <li class="normal" id="section-5.5.3-2.3">Decrypt and verify the COSE_Encrypt0 as defined in Sections 5.2 and 5.3 of <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>, with the EDHOC AEAD algorithm in the selected cipher suite, and the parameters defined in <a href="#asym-msg4-proc" class="xref">Section 5.5.2</a>.<a href="#section-5.5.3-2.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.5.3-2.3">Decrypt and verify the COSE_Encrypt0 as defined in Sections 5.2 and 5.3 of <span>[<a href="#I-D.ietf-cose-rfc8152bis-struct" class="xref">I-D.ietf-cose-rfc8152bis-struct</a>]</span>, with the EDHOC AEAD algorithm in the selected cipher suite, and the parameters defined in <a href="#asym-msg4-proc" class="xref">Section 5.5.2</a>. Discard padding, if present.<a href="#section-5.5.3-2.3" class="pilcrow">¶</a>
 </li>
             <li class="normal" id="section-5.5.3-2.4">Pass EAD_4 to the security application.<a href="#section-5.5.3-2.4" class="pilcrow">¶</a>
 </li>
@@ -2638,7 +2642,8 @@ Initiator                                                   Responder
 <p id="section-7-5">Implementations MUST support the EDHOC-Exporter. Implementations SHOULD support EDHOC-KeyUpdate.<a href="#section-7-5" class="pilcrow">¶</a></p>
 <p id="section-7-6">Implementations MAY support message_4. Error codes (ERR_CODE) 1 and 2 MUST be supported.<a href="#section-7-6" class="pilcrow">¶</a></p>
 <p id="section-7-7">Implementations MAY support EAD.<a href="#section-7-7" class="pilcrow">¶</a></p>
-<p id="section-7-8">For many constrained IoT devices it is problematic to support several crypto primitives. Existing devices can be expected to support either ECDSA or EdDSA. Cipher suites 0 (AES-CCM-16-64-128, SHA-256, 8, X25519, EdDSA, AES-CCM-16-64-128, SHA-256) and 1 (AES-CCM-16-128-128, SHA-256, 16, X25519, EdDSA, AES-CCM-16-64-128, SHA-256) only differ in size of the MAC length, so supporting one or both of these is no essential difference. Similarly for cipher suites 2 (AES-CCM-16-64-128, SHA-256, 8, P-256, ES256, AES-CCM-16-64-128, SHA-256) and 3 (AES-CCM-16-128-128, SHA-256, 16, P-256, ES256, AES-CCM-16-64-128, SHA-256). To enable as much interoperability as possible, less constrained devices SHOULD implement all four cipher suites 0-3. Constrained endpoints SHOULD implement cipher suites 0 and 1, or cipher suites 2 and 3. Implementations only need to implement the algorithms needed for their supported methods.<a href="#section-7-8" class="pilcrow">¶</a></p>
+<p id="section-7-8">Implementations MAY support padding of plaintext when sending messages. Implementations MUST support padding of plaintext when receiving messages, i.e. MUST be able to parse padded messages.<a href="#section-7-8" class="pilcrow">¶</a></p>
+<p id="section-7-9">For many constrained IoT devices it is problematic to support several crypto primitives. Existing devices can be expected to support either ECDSA or EdDSA. Cipher suites 0 (AES-CCM-16-64-128, SHA-256, 8, X25519, EdDSA, AES-CCM-16-64-128, SHA-256) and 1 (AES-CCM-16-128-128, SHA-256, 16, X25519, EdDSA, AES-CCM-16-64-128, SHA-256) only differ in size of the MAC length, so supporting one or both of these is no essential difference. Similarly for cipher suites 2 (AES-CCM-16-64-128, SHA-256, 8, P-256, ES256, AES-CCM-16-64-128, SHA-256) and 3 (AES-CCM-16-128-128, SHA-256, 16, P-256, ES256, AES-CCM-16-64-128, SHA-256). To enable as much interoperability as possible, less constrained devices SHOULD implement all four cipher suites 0-3. Constrained endpoints SHOULD implement cipher suites 0 and 1, or cipher suites 2 and 3. Implementations only need to implement the algorithms needed for their supported methods.<a href="#section-7-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security">
@@ -2698,8 +2703,8 @@ authenticated encryption. Hence the message authenticating functionality of the 
 </div>
 <div id="unprot-data">
 <section id="section-8.5">
-        <h3 id="name-unprotected-data">
-<a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-unprotected-data" class="section-name selfRef">Unprotected Data</a>
+        <h3 id="name-unprotected-data-and-privac">
+<a href="#section-8.5" class="section-number selfRef">8.5. </a><a href="#name-unprotected-data-and-privac" class="section-name selfRef">Unprotected Data and Privacy</a>
         </h3>
 <p id="section-8.5-1">The Initiator and the Responder must make sure that unprotected data and metadata do not reveal any sensitive information. This also applies for encrypted data sent to an unauthenticated party. In particular, it applies to EAD_1, ID_CRED_R, EAD_2, and error messages. Using the same EAD_1 in several EDHOC sessions allows passive eavesdroppers to correlate the different sessions. Another consideration is that the list of supported cipher suites may potentially be used to identify the application. The Initiator and the Responder must also make sure that unauthenticated data does not trigger any harmful actions. In particular, this applies to EAD_1 and error messages.<a href="#section-8.5-1" class="pilcrow">¶</a></p>
 <p id="section-8.5-2">An attacker observing network traffic may use connection identifiers sent in clear in EDHOC or the subsequent application protocol to correlate packets sent on different paths or at different times. The attacker may use this information for traffic flow analysis or to track an endpoint. Application protocols using connection identifiers from EDHOC SHOULD provide mechanisms to update the connection identifier and MAY provide mechanisms to issue several simultaneously active connection identifiers. See <span>[<a href="#RFC9000" class="xref">RFC9000</a>]</span> for a non-constrained example of such mechanisms.<a href="#section-8.5-2" class="pilcrow">¶</a></p>
@@ -2711,6 +2716,7 @@ authenticated encryption. Hence the message authenticating functionality of the 
 <a href="#section-8.6" class="section-number selfRef">8.6. </a><a href="#name-updated-internet-threat-mod" class="section-name selfRef">Updated Internet Threat Model Considerations</a>
         </h3>
 <p id="section-8.6-1">Since the publication of <span>[<a href="#RFC3552" class="xref">RFC3552</a>]</span> there has been an increased awareness of the need to protect against endpoints that are compromised, malicious, or whose interests simply do not align with the interests of users <span>[<a href="#I-D.arkko-arch-internet-threat-model-guidance" class="xref">I-D.arkko-arch-internet-threat-model-guidance</a>]</span>. <span>[<a href="#RFC7624" class="xref">RFC7624</a>]</span> describes an updated threat model for Internet confidentiality, see <a href="#sec-prop" class="xref">Section 8.1</a>. <span>[<a href="#I-D.arkko-arch-internet-threat-model-guidance" class="xref">I-D.arkko-arch-internet-threat-model-guidance</a>]</span> further expands the threat model. Implementations and users SHOULD consider these threat models. In particular, even data sent protected to the other endpoint such as ID_CRED and EAD can be used for tracking, see Section 2.7 of <span>[<a href="#I-D.arkko-arch-internet-threat-model-guidance" class="xref">I-D.arkko-arch-internet-threat-model-guidance</a>]</span>.<a href="#section-8.6-1" class="pilcrow">¶</a></p>
+<p id="section-8.6-2">Information regarding the lengths of ID_CRED_I, ID_CRED_R, EAD_2, EAD_3, and EAD_4 are leaked to an passive attacker. Many COSE header parameters have variable length. To mitigate an attacker from differentiating endpoints with identifiers of different length, and implementation may e.g., only use fix length identifiers like 'kid' of length 1 for the Responders. Alternatively padding may be used to hide the length of e.g., certificates by value in 'x5chain' or 'c5c'.<a href="#section-8.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="dos">
