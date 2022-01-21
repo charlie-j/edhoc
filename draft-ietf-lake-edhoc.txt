@@ -2160,11 +2160,14 @@ Table of Contents
    The output size of the EDHOC hash algorithm MUST be at least
    256-bits, i.e., the hash algorithms SHA-1 and SHA-256/64 (SHA-256
    truncated to 64-bits) SHALL NOT be supported for use in EDHOC except
-   for certificate identification with x5t and c5t.  The EDHOC MAC
-   length MUST be at least 8 bytes and the tag length of the EDHOC AEAD
-   algorithm MUST be at least 64-bits.  Note that secp256k1 is only
-   defined for use with ECDSA and not for ECDH.  Note that some COSE
-   algorithms are marked as not recommended in the COSE IANA registry.
+   for certificate identification with x5t and c5t.  For security
+   considerations of SHA-1, see [RFC6194].
+
+   The EDHOC MAC length MUST be at least 8 bytes and the tag length of
+   the EDHOC AEAD algorithm MUST be at least 64-bits.  Note that
+   secp256k1 is only defined for use with ECDSA and not for ECDH.  Note
+   that some COSE algorithms are marked as not recommended in the COSE
+   IANA registry.
 
 8.4.  Post-Quantum Considerations
 
