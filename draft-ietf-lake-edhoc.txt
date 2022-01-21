@@ -1371,6 +1371,9 @@ Table of Contents
 
    *  Decode message_1 (see Appendix C.1).
 
+   *  Verify that G_X is not equal to G_X in a simultanous EDHOC message
+      exchange initiated by the Responder.
+
    *  Verify that the selected cipher suite is supported and that no
       prior cipher suite in SUITES_I is supported.
 
@@ -2058,12 +2061,17 @@ Table of Contents
    compromise of all keying material derived with the EDHOC-Exporter
    since the last invocation (if any) of the EDHOC-KeyUpdate function.
 
-   EDHOC provides a minimum of 64-bit security against online brute
-   force attacks and a minimum of 128-bit security against offline brute
-   force attacks.  To break 64-bit security against online brute force
-   an attacker would on average have to send 4.3 billion messages per
+   Based on the cryptographic algorithms requirements Section 8.3, EDHOC
+   provides a minimum of 64-bit security against online brute force
+   attacks and a minimum of 128-bit security against offline brute force
+   attacks.  To break 64-bit security against online brute force an
+   attacker would on average have to send 4.3 billion messages per
    second for 68 years, which is infeasible in constrained IoT radio
-   technologies.
+   technologies.  A forgery against a 64-bit MAC in EDHOC breaks the
+   security of all future application data, while a forgery against a
+   64-bit MAC in the subsequent application protocol (e.g., OSCORE
+   [RFC8613]) typically only breaks the security of the data in the
+   forged packet.
 
    After sending message_3, the Initiator is assured that no other party
    than the Responder can compute the key PRK_4x3m (implicit key
@@ -2149,10 +2157,12 @@ Table of Contents
    certificates, EDHOC, and the protection of application data.  The
    Initiator and the Responder should enforce a minimum security level.
 
-   The hash algorithms SHA-1 and SHA-256/64 (SHA-256 truncated to
-   64-bits) SHALL NOT be supported for use in EDHOC except for
-   certificate identification with x5t and c5t.  For security
-   considerations of SHA-1, see [RFC6194].  Note that secp256k1 is only
+   The output size of the EDHOC hash algorithm MUST be at least
+   256-bits, i.e., the hash algorithms SHA-1 and SHA-256/64 (SHA-256
+   truncated to 64-bits) SHALL NOT be supported for use in EDHOC except
+   for certificate identification with x5t and c5t.  The EDHOC MAC
+   length MUST be at least 8 bytes and the tag length of the EDHOC AEAD
+   algorithm MUST be at least 64-bits.  Note that secp256k1 is only
    defined for use with ECDSA and not for ECDH.  Note that some COSE
    algorithms are marked as not recommended in the COSE IANA registry.
 
@@ -2281,6 +2291,12 @@ Table of Contents
    As suggested in Section 6.1.2 of [I-D.ietf-cose-rfc8152bis-algs] this
    can be addressed by combining randomness and determinism.
 
+   Appendix D of [I-D.ietf-lwig-curve-representations] describes how
+   Montgomery curves such as X25519 and X448 and (twisted) Edwards
+   curves as curves such as Ed25519 and Ed448 can mapped to and from
+   short-Weierstrass form for implementation on platforms that
+   accelerate elliptic curve group operations in short-Weierstrass form.
+
    All private keys, symmetric keys, and IVs MUST be secret.
    Implementations should provide countermeasures to side-channel
    attacks such as timing attacks.  Intermediate computed values such as
@@ -2316,10 +2332,13 @@ Table of Contents
    EDHOC message exchange, they MAY terminate the exchange with the
    lexicographically smallest G_X.  If the two G_X values are equal, the
    received message_1 MUST be discarded to mitigate reflection attacks.
-   Note that in the case of two simultaneous EDHOC exchanges where the
-   nodes only complete one and where the nodes have different preferred
-   cipher suites, an attacker can affect which of the two nodes'
-   preferred cipher suites will be used by blocking the other exchange.
+   Reflection attacks are not possible when the other endpoint's
+   identity is verified, but could be a problem with trust on first use
+   (TOFU) and future EHDOC methods using e.g., pre-shared keys.  Note
+   that in cases where several EDHOC exchanges with different parameter
+   sets (method, COSE headers, etc.) are used, an attacker can affect
+   which of the parameter sets that will be used by blocking some of the
+   parameter sets.
 
    If supported by the device, it is RECOMMENDED that at least the long-
    term private keys are stored in a Trusted Execution Environment (TEE)
@@ -2696,6 +2715,13 @@ Table of Contents
               ietf-cose-x509-08, 14 December 2020,
               <https://www.ietf.org/internet-drafts/draft-ietf-cose-
               x509-08.txt>.
+
+   [I-D.ietf-lwig-curve-representations]
+              Struik, R., "Alternative Elliptic Curve Representations",
+              Work in Progress, Internet-Draft, draft-ietf-lwig-curve-
+              representations-22, 25 October 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-lwig-curve-
+              representations-22.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
