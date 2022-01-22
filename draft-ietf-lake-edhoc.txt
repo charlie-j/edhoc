@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 25 July 2022                                           Ericsson
-                                                         21 January 2022
+Expires: 26 July 2022                                           Ericsson
+                                                         22 January 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 July 2022.
+   This Internet-Draft will expire on 26 July 2022.
 
 Copyright Notice
 
@@ -376,7 +376,7 @@ Table of Contents
 
    To simplify for implementors, the use of CBOR and COSE in EDHOC is
    summarized in Appendix C.  Test vectors including CBOR diagnostic
-   notation are provided in [I-D.selander-lake-traces].
+   notation are provided in [I-D.ietf-lake-traces].
 
 3.  Protocol Elements
 
@@ -1239,7 +1239,7 @@ Table of Contents
 
    This section specifies formatting of the messages and processing
    steps.  Error messages are specified in Section 6.  Annotated traces
-   of EDHOC protocol runs are provided in [I-D.selander-lake-traces].
+   of EDHOC protocol runs are provided in [I-D.ietf-lake-traces].
 
    An EDHOC message is encoded as a sequence of CBOR data items (CBOR
    Sequence, [RFC8742]).  Additional optimizations are made to reduce
@@ -2719,13 +2719,6 @@ Table of Contents
               <https://www.ietf.org/internet-drafts/draft-ietf-cose-
               x509-08.txt>.
 
-   [I-D.ietf-lwig-curve-representations]
-              Struik, R., "Alternative Elliptic Curve Representations",
-              Work in Progress, Internet-Draft, draft-ietf-lwig-curve-
-              representations-22, 25 October 2021,
-              <https://www.ietf.org/archive/id/draft-ietf-lwig-curve-
-              representations-22.txt>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -2904,6 +2897,19 @@ Table of Contents
               8 June 2020, <https://www.ietf.org/archive/id/draft-ietf-
               lake-reqs-04.txt>.
 
+   [I-D.ietf-lake-traces]
+              Selander, G. and J. P. Mattsson, "Traces of EDHOC", Work
+              in Progress, Internet-Draft, draft-ietf-lake-traces-00, 25
+              November 2021, <https://www.ietf.org/archive/id/draft-
+              ietf-lake-traces-00.txt>.
+
+   [I-D.ietf-lwig-curve-representations]
+              Struik, R., "Alternative Elliptic Curve Representations",
+              Work in Progress, Internet-Draft, draft-ietf-lwig-curve-
+              representations-22, 25 October 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-lwig-curve-
+              representations-22.txt>.
+
    [I-D.ietf-lwig-security-protocol-comparison]
               Mattsson, J. P., Palombini, F., and M. Vucinic,
               "Comparison of CoAP Security Protocols", Work in Progress,
@@ -2934,12 +2940,6 @@ Table of Contents
               Draft, draft-selander-ace-ake-authz-04, 22 October 2021,
               <https://www.ietf.org/archive/id/draft-selander-ace-ake-
               authz-04.txt>.
-
-   [I-D.selander-lake-traces]
-              Selander, G. and J. P. Mattsson, "Traces of EDHOC", Work
-              in Progress, Internet-Draft, draft-selander-lake-traces-
-              02, 20 October 2021, <https://www.ietf.org/archive/id/
-              draft-selander-lake-traces-02.txt>.
 
    [Norrman20]
               Norrman, K., Sundararajan, V., and A. Bruni, "Formal
