@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 28 July 2022                                           Ericsson
-                                                         24 January 2022
+Expires: 29 July 2022                                           Ericsson
+                                                         25 January 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 July 2022.
+   This Internet-Draft will expire on 29 July 2022.
 
 Copyright Notice
 
@@ -1036,7 +1036,9 @@ Table of Contents
    This section defines Extract, Expand and other key derivation
    functions based on these: Expand is used to define EDHOC-KDF and in
    turn EDHOC-Exporter, whereas Extract is used to define EDHOC-
-   KeyUpdate.
+   KeyUpdate.  In EDHOC a specific message always use the same key, but
+   how the key is derived depends on the method.  A diagram of the EDHOC
+   key schedule can be found in Figure 2 of [Vucinic22].
 
 4.1.  Extract
 
@@ -2994,6 +2996,12 @@ Table of Contents
               Schemes Using Discrete Logarithm Cryptography",
               NIST Special Publication 800-56A Revision 3, April 2018,
               <https://doi.org/10.6028/NIST.SP.800-56Ar3>.
+
+   [Vucinic22]
+              Vučinić, M., Selander, G., Preuß Mattsson, J., and T.
+              Watteyne, "Lightweight Authenticated Key Exchange with
+              EDHOC", January 2022,
+              <https://hal.inria.fr/hal-03434293v3/document>.
 
 Appendix A.  Use with OSCORE and Transfer over CoAP
 
