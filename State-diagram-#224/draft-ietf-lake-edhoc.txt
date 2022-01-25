@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 26 July 2022                                           Ericsson
-                                                         22 January 2022
+Expires: 29 July 2022                                           Ericsson
+                                                         25 January 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 July 2022.
+   This Internet-Draft will expire on 29 July 2022.
 
 Copyright Notice
 
@@ -1038,7 +1038,7 @@ Table of Contents
    turn EDHOC-Exporter, whereas Extract is used to define EDHOC-
    KeyUpdate.  In EDHOC a specific message always use the same key, but
    how the key is derived depends on the method.  Diagrams of the EDHOC
-   key schedule can be found in Figure 2,3, and 4 of [Vucinic22].
+   key schedule can be found in Figure 2 of [Vucinic22].
 
 4.1.  Extract
 
@@ -2908,9 +2908,9 @@ Table of Contents
    [I-D.ietf-lwig-curve-representations]
               Struik, R., "Alternative Elliptic Curve Representations",
               Work in Progress, Internet-Draft, draft-ietf-lwig-curve-
-              representations-22, 25 October 2021,
+              representations-23, 21 January 2022,
               <https://www.ietf.org/archive/id/draft-ietf-lwig-curve-
-              representations-22.txt>.
+              representations-23.txt>.
 
    [I-D.ietf-lwig-security-protocol-comparison]
               Mattsson, J. P., Palombini, F., and M. Vucinic,
