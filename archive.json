@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-01-23T01:06:19.770196+00:00",
+  "timestamp": "2022-01-25T01:12:37.580913+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -1929,12 +1929,13 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [
+        "Close?",
         "Interim 25 Jan 2022",
         "Cipher Suite cluster"
       ],
       "body": "",
       "createdAt": "2020-12-18T16:38:30Z",
-      "updatedAt": "2022-01-22T17:11:59Z",
+      "updatedAt": "2022-01-24T14:43:30Z",
       "closedAt": null,
       "comments": [
         {
@@ -1943,6 +1944,13 @@
           "body": "Will be done when IANA registrations are done",
           "createdAt": "2021-02-21T06:58:23Z",
           "updatedAt": "2021-02-21T06:58:23Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Should we close this? The draft does not seem to progress. I have made a commit to master with the equations on how to transform curve25519 and edward25519 to Weirstra\u00df format to enable acceleration on exisitng HW, these equiations are very useful.\r\n\r\nPart of the interest in Wei25519 seems to have been based on misunderstanding and the actual interest was in the now referenced equations.\r\n\r\nA Wei25519 cipher suite can easily be registered later if there is interest.",
+          "createdAt": "2022-01-24T14:43:15Z",
+          "updatedAt": "2022-01-24T14:43:15Z"
         }
       ]
     },
@@ -7791,10 +7799,13 @@
       "assignees": [
         "emanjon"
       ],
-      "labels": [],
+      "labels": [
+        "PR exists",
+        "Interim 25 Jan 2022"
+      ],
       "body": "From Marco's review:\r\n\r\n[Section 5.2.3]\r\n\r\n* \"If an error message is sent, the session MUST be discontinued.\"\r\n\r\n    Is this sentence actually required? Regardless sending an error \r\nmessage or not, the session is discontinued if any processing step \r\nfails, which is the reason for possibly sending an error message. Or are \r\nthere situations where an error message is sent even if no processing \r\nstep fails?\r\n\r\n",
       "createdAt": "2021-12-03T16:56:56Z",
-      "updatedAt": "2021-12-21T15:17:19Z",
+      "updatedAt": "2022-01-24T17:24:45Z",
       "closedAt": null,
       "comments": [
         {
@@ -7831,6 +7842,34 @@
           "body": "I will make a suggested PR for this in the upcoming weeks.",
           "createdAt": "2021-12-21T15:17:19Z",
           "updatedAt": "2021-12-21T15:17:19Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I made a PR to try to address the two comments from Marco and Sean which where quite different but both involve error.\r\n\r\nAs in HTTP and CoAP the intention is that error can be both \"client errors\" and \"server errors\". I removed duplicate text from the processing sections and expanded the text in the error section.\r\n\r\nThe PR likely needs some further update but is hopefully a good start for discussion.",
+          "createdAt": "2022-01-23T10:08:36Z",
+          "updatedAt": "2022-01-23T10:08:36Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "EDHOC is not following the standard client error server error design of HTTP and CoAP. Is this intentional?\r\n\r\nThis is the highest level grouping in HTTP and CoAP. As far as I can remember that was not even discussed. \r\n\r\nInstead of\r\n1 | tstr          | Unspecified         \r\n\r\nShould we not have something like \r\n1 | tstr          | Unspecified Initiator error\r\n2 | tstr          | Unspecified Responder error\r\n\r\nor\r\n\r\n1 | tstr | Unspecified Sender error\r\n2 | tstr | Unspecified Reciever error\r\n\r\nAlso is \"Unspecified\" a good name? The intention is that it is specified in the tstr.\r\n",
+          "createdAt": "2022-01-24T06:21:58Z",
+          "updatedAt": "2022-01-24T08:23:13Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "https://mailarchive.ietf.org/arch/msg/lake/ABtedw5eR2M66563D5qI0Op1Unc/\r\n\r\nWhile working on this I noticed than one cause for Marcos comment might be\r\nthat EDHOC only talkes about what HTTP and CoAP calls \"client error\",\r\ni.e., there was something wrong in the received message.\r\n\r\nHTTP and CoAP defines errrors into two classes \"client error\" (there is something\r\nwrong with you) and \"server error\" (there is something wrong with me).\r\n\r\nEDHOC does currently not follow this design and only has a single error\r\n\r\n1 | tstr | Unspecified\r\n\r\nShould EDHOC instead have have something like?\r\n\r\n1 | tstr | Unspecified Initiator error\r\n2 | tstr | Unspecified Responder error\r\n\r\nor\r\n\r\n1 | tstr | Unspecified Sender error\r\n2 | tstr | Unspecified Reciever error\r\n\r\nThe choice would likely be whatever is easiest for an implementation.\r\n\r\nI think we should discuss this. This type of high level classes was not discussed before. We only discussed what kind of detailed errors we should standardized and agreed on none.\r\n\r\nAlso is \"Unspecified\" a good name? The intention is that it is specified in the tstr.",
+          "createdAt": "2022-01-24T17:21:30Z",
+          "updatedAt": "2022-01-24T17:21:30Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Marco wrote:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/lake/C8s2WyZH52TQ5QoZAPdgUFpsAq0/\r\n\r\nI think it's good to have something like in your second proposal and \r\nwithout \"Unspecified\" (as you say, the error is specified in the text \r\nstring), that is:\r\n\r\n1 | tstr | Sender error\r\n2 | tstr | Receiver error\r\n\r\nWithout bothering about which among client and server exactly has the \r\nInitiator or Responder role in the EDHOC session, the above can be read as:\r\n\r\n1 --> \"something wrong done by the sender of the message that resulted \r\nin this error message\"\r\n\r\n2 --> \"something locally wrong happened at the receiver of the message \r\nthat resulted in this error message\"\r\n\r\nThe mapping with high-level classes from CoAP/HTTP would be limited to \r\nresponses only, and for CoAP it was basically sketched in Appendix A.3.1:\r\n\r\n\"In particular, it is RECOMMENDED that such error responses have \r\nresponse code either 4.00 (Bad Request) in case of client error (e.g., \r\ndue to a malformed EDHOC message), or 5.00 (Internal Server Error) in \r\ncase of server error (e.g., due to failure in deriving EDHOC key material).\"\r\n\r\nThis can be expanded to highlight the use of 4.00 responses for ERR_CODE \r\n1 (Sender error) and the use of 5.00 responses for ERR_CODE 2 (Receiver \r\nerror).",
+          "createdAt": "2022-01-24T17:21:48Z",
+          "updatedAt": "2022-01-24T17:24:45Z"
         }
       ]
     },
@@ -8006,7 +8045,7 @@
       ],
       "body": "Based on Stephens review",
       "createdAt": "2021-12-10T09:47:27Z",
-      "updatedAt": "2022-01-22T19:15:45Z",
+      "updatedAt": "2022-01-24T08:20:56Z",
       "closedAt": null,
       "comments": [
         {
@@ -8015,6 +8054,20 @@
           "body": "Referring to this in #202:\r\n\r\n> if some random values are visible \r\n> (connection identifiers?) then it can make sense to\r\n> derive those from a different random stream compared to\r\n> that used for randomly picking secrets. That way the\r\n> publicly visible random numbers are less likely to leak\r\n> information about the state of the PRNG used for secrets.\r\n",
           "createdAt": "2021-12-10T16:49:37Z",
           "updatedAt": "2021-12-10T16:49:37Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From the PR #233:\r\n\r\n\"As explained by Krawczyk, any attack mitigated by the NIST requiment would mean that the KDF is fully broken and would have to be replaced anyway.\"\r\n\r\nI didn't understand \"any attack mitigated by the NIST requirement\", and how mitigation could imply that something is broken.\r\n\r\nAs far as I understand, the statement is something like \"if there is a problem deriving secret and non-secret material from the same KDF, then there is a problem with the KDF\"\r\n\r\nPerhaps \"an attack based on the violation of the NIST requirement is an attack on the KDF itself\"?\r\n\r\n\r\n",
+          "createdAt": "2022-01-24T07:42:41Z",
+          "updatedAt": "2022-01-24T07:42:41Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, it was likely meants to say \"if any attack is mitigate\"\r\n\r\nLet's reformulate according to your suggestion",
+          "createdAt": "2022-01-24T08:20:56Z",
+          "updatedAt": "2022-01-24T08:20:56Z"
         }
       ]
     },
@@ -8322,7 +8375,7 @@
       ],
       "body": "It would be nice to include a README and a generic Unix-friendly Makefile that explains how to build the `vectors.cpp` application. The current build is Windows-only.",
       "createdAt": "2022-01-20T16:46:31Z",
-      "updatedAt": "2022-01-21T11:08:31Z",
+      "updatedAt": "2022-01-24T14:32:38Z",
       "closedAt": null,
       "comments": [
         {
@@ -8331,6 +8384,13 @@
           "body": "I think Marek has already solve this. Have you looked at his code?\r\n\r\nhttps://github.com/lake-wg/edhoc/issues/185",
           "createdAt": "2022-01-21T11:08:31Z",
           "updatedAt": "2022-01-21T11:08:31Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Link to the code:\r\n\r\nhttps://github.com/stoprocent/edhoc/tree/feature/mbedtls/test-vectors-11\r\n",
+          "createdAt": "2022-01-24T14:32:37Z",
+          "updatedAt": "2022-01-24T14:32:37Z"
         }
       ]
     }
@@ -11051,6 +11111,32 @@
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Security-considerations-on-gererating-secret-material-and-public-material-such-as-connection-IDs.-#214",
       "headRefOid": "446945311b50aeef3f30812266911b66f6119289",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 234,
+      "id": "PR_kwDOEItXAM4xdHBF",
+      "title": " Error message => Discontinue #208",
+      "url": "https://github.com/lake-wg/edhoc/pull/234",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "#208",
+      "createdAt": "2022-01-23T10:04:02Z",
+      "updatedAt": "2022-01-23T10:04:03Z",
+      "baseRepository": "lake-wg/edhoc",
+      "baseRefName": "master",
+      "baseRefOid": "fbfa8acda261363e4def600f6cc3a29d0c341699",
+      "headRepository": "lake-wg/edhoc",
+      "headRefName": "Error-message-=>-Discontinue-#208",
+      "headRefOid": "dad9b4cf2394e96807e029de7a95dabff3f0fe9d",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
