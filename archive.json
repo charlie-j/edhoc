@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-01-27T01:06:35.115824+00:00",
+  "timestamp": "2022-01-30T01:07:29.577602+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -8515,7 +8515,7 @@
       ],
       "body": "[lake-traces 2.  Setup](https://www.ietf.org/archive/id/draft-selander-lake-traces-02.html#section-2) states\r\n````\r\nBoth I and R are assumed to support cipher suite 0, which determines the algorithms:\r\n\r\nEDHOC AEAD algorithm = AES-CCM-16-64-128\r\nEDHOC hash algorithm = SHA-256\r\nEDHOC MAC length in bytes (Static DH) = 8\r\nEDHOC key exchange algorithm (ECDH curve) = X25519\r\nEDHOC signature algorithm = EdDSA\r\nApplication AEAD algorithm = AES-CCM-16-64-128\r\nApplication hash algorithm = SHA-256\r\n````\r\nThen [lake-traces 4.2.  message_2](https://www.ietf.org/archive/id/draft-selander-lake-traces-02.html#section-4.2) has\r\n````\r\nCRED_R is identified by a 64-bit hash:\r\n\r\nID_CRED_R =\r\n{\r\n  34 : [-15, h'60780E9451BDC43C']\r\n}\r\nwhere the COSE header value 34 ('x5t') indicates a hash of an X.509 certficate, and the COSE algorithm -15 indicates\r\nthe hash algorithm SHA-256 truncated to 64 bits.\r\n````\r\nwhich is using -15 (SHA-256/64), not -16 (SHA-256) for the hash.\r\n\r\nHow was this decision arrived at?",
       "createdAt": "2022-01-25T12:25:56Z",
-      "updatedAt": "2022-01-25T14:51:24Z",
+      "updatedAt": "2022-01-28T09:24:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -8524,8 +8524,38 @@
           "body": "Thanks for the comment.\r\n\r\n- The hash algorithm used in x5t is independent of the EDHOC cipher suite, that should probably be mentioned in the draft. I will make a PR with some text on this.\r\n\r\n- I don't think there was any discussion on this, but SHA-256/64 feels like a natural choice. As EDHOC integrity protects the whole certificate the length of the hash does not have any security relevance, the hash is just used to find the certificate, not to prove it is the correct one. Using SHA-256 would increase overhead with 24 bytes per message without any benefits. An implementation supporting SHA-256 can easily support SHA-256/64 (as it is just a truncated SHA-256).\r\n",
           "createdAt": "2022-01-25T14:43:03Z",
           "updatedAt": "2022-01-25T14:51:24Z"
+        },
+        {
+          "author": "stoprocent",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "@emanjon Than I need to run an update on test vectors for p256 as I have switched to SHA_256. I will make an update to use SHA_256/64 and pull request",
+          "createdAt": "2022-01-28T08:26:55Z",
+          "updatedAt": "2022-01-28T08:26:55Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, please do. Using SHA-256 in x5t is just a waste of 24 bytes in message_2 and message_3.\r\n\r\nWe should maybe give some recommendations in the draft regarding this, but I think it is hard to give normative requirements as x5t is just one example and future COSE header parameters and EAD might use cryptographic algorithms. The algortithms in X.509 in another example on algorithms not controlled by the cipher suite, Somebody might use a cert with a P-521 authentication key where the CA used RSA-PSS to sign the certificate together with cipher suite 2/3.\r\n\r\nMaybe the draft should recommend the use of algorithms from the ciphersuite also in cose headers, EAD, X.509, CWT, etc. In the case of x5t the recommendation could be to use the same hash function but with as much truncation as possible.",
+          "createdAt": "2022-01-28T09:24:37Z",
+          "updatedAt": "2022-01-28T09:24:37Z"
         }
       ]
+    },
+    {
+      "number": 238,
+      "id": "I_kwDOEItXAM5Cpjcq",
+      "title": "When does the Compliance requirements apply",
+      "url": "https://github.com/lake-wg/edhoc/issues/238",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Compliance requirements has some positive effects but also many negative.\r\n- Constrained devices might be required to support things (takes up storage) they never use.\r\n- Weaknesses might be found in cryptographic algorithms. Implementation then have to chose between being compliant or insecure.\r\n\r\nTLS 1.3 has softened the compliance requirements compared to TLS 1.2 (COSE does not have any at all). TLS 1.3 (RFC8446) use the following sentence\r\n\r\n\"  In the absence of an application profile standard specifying\r\n   otherwise:\r\n\"\r\n\r\nThis might (likely?) be a good sentence for EDHOC as well.\r\n ",
+      "createdAt": "2022-01-29T11:15:26Z",
+      "updatedAt": "2022-01-29T11:21:46Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -11298,6 +11328,58 @@
       "headRepository": "lake-wg/edhoc",
       "headRefName": "Decision-to-use-SHA-256/64-for-I_CRED_R-#235",
       "headRefOid": "55c803f0e6427a688276c2cd65d137f486b92b69",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 237,
+      "id": "PR_kwDOEItXAM4xuRZM",
+      "title": "Updated p-256 test vectors to use SHA256/64 in ID_CRED_x",
+      "url": "https://github.com/lake-wg/edhoc/pull/237",
+      "state": "OPEN",
+      "author": "stoprocent",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Required due to issue #235\r\nUpdated code again can be found here: https://github.com/stoprocent/edhoc/commit/a8d4c1d6ae4f8a7460c88a50481ec5b49a0185e4",
+      "createdAt": "2022-01-28T08:35:21Z",
+      "updatedAt": "2022-01-28T08:35:21Z",
+      "baseRepository": "lake-wg/edhoc",
+      "baseRefName": "master",
+      "baseRefOid": "0682135bd778164c86ae170d1cfb9947802573a7",
+      "headRepository": "stoprocent/edhoc",
+      "headRefName": "test-vectors-rfc-p256",
+      "headRefOid": "a78a8519948c2abec7af8c485589538c449f3c15",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 239,
+      "id": "PR_kwDOEItXAM4xxrdX",
+      "title": "When does the Compliance requirements apply #238",
+      "url": "https://github.com/lake-wg/edhoc/pull/239",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "When does the Compliance requirements apply #238",
+      "createdAt": "2022-01-29T11:24:15Z",
+      "updatedAt": "2022-01-29T11:24:16Z",
+      "baseRepository": "lake-wg/edhoc",
+      "baseRefName": "master",
+      "baseRefOid": "0682135bd778164c86ae170d1cfb9947802573a7",
+      "headRepository": "lake-wg/edhoc",
+      "headRefName": "When-does-the-Compliance-requirements-apply-#238",
+      "headRefOid": "2cfbec29c2c664418c75e9b8a2298f37ca5f447b",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
