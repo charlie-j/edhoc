@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-02-01T01:09:25.945892+00:00",
+  "timestamp": "2022-02-03T01:04:27.771366+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -8570,6 +8570,24 @@
       "body": "Current draft says:\r\n\"EDHOC protects the credential identifier of the Initiator against active attacks and the credential identifier of the Responder against passive attacks.\"\r\n\r\nShould probably point out that active attack would be a new message_1 to the lower layer address as the other message_1.\r\n\r\n",
       "createdAt": "2022-01-31T08:07:22Z",
       "updatedAt": "2022-01-31T08:07:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 242,
+      "id": "I_kwDOEItXAM5CxouS",
+      "title": "Errors in EAD processing",
+      "url": "https://github.com/lake-wg/edhoc/issues/242",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "EAD cluster"
+      ],
+      "body": "From follow up of Sean's review:\r\n\r\nhttps://mailarchive.ietf.org/arch/msg/lake/rC3OwLdD0fO6EEx8Lnh3k1zXUV8/\r\n\r\n> > s3.8 (comment): Wow .. so you can send in the CSR in EAD, if it works then you can use the cert in the later messages (e.g., kind of like EAP)? Sure hope there\u2019s no kind of CSR-related error. And, you know that the CA gets to decide the name right. Sorry just trying to digest it all.\r\n> > \r\n> > [GS: We discussed this in the LAKE interim where you participated, but just for the record: Yes, the intent is to be able to send CSR in EAD. This is expected to be detailed in an accompanying specification. One example would be the enrolment of an \"operational\" certificate as an add-on to initial authentication, the authentication of which could be performed using a manufacturer certificate included in the device from factory.\r\n> > ]\r\n>\r\n> Yeah I remember I was there. As long as your consider what to do when you get an enrollment error this will be fine to do.\r\n \r\nHow to handle errors in EAD processing should be included in the new EAD appendix.",
+      "createdAt": "2022-02-01T07:07:44Z",
+      "updatedAt": "2022-02-01T07:08:18Z",
       "closedAt": null,
       "comments": []
     }
