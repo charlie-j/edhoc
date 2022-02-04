@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 3 August 2022                                          Ericsson
-                                                         30 January 2022
+Expires: 8 August 2022                                          Ericsson
+                                                         4 February 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 August 2022.
+   This Internet-Draft will expire on 8 August 2022.
 
 Copyright Notice
 
@@ -142,10 +142,11 @@ Table of Contents
      D.3.  Trust-on-first-use
      D.4.  Revocation
      D.5.  Authentication related information in EAD
-   Appendix E.  Applicability Template Example
-   Appendix F.  EDHOC Message Deduplication
-   Appendix G.  Transports Not Natively Providing Correlation
-   Appendix H.  Change Log
+   Appendix E.  External Authorization Data processing
+   Appendix F.  Applicability Template Example
+   Appendix G.  EDHOC Message Deduplication
+   Appendix H.  Transports Not Natively Providing Correlation
+   Appendix I.  Change Log
    Acknowledgments
    Authors' Addresses
 
@@ -923,7 +924,7 @@ Table of Contents
    cipher suite is still performed as described in Section 5.2.1 and
    Section 6.3, but it may become simplified by this knowledge.
 
-   An example of an applicability template is shown in Appendix E.
+   An example of an applicability template is shown in Appendix F.
 
    For some parameters, like METHOD, ID_CRED_x, type of EAD, the
    receiver is able to verify compliance with applicability template,
@@ -1228,7 +1229,7 @@ Table of Contents
    This assumes that message duplication due to re-transmissions is
    handled by the transport protocol, see Section 3.4.  The case when
    the transport does not support message deduplication is addressed in
-   Appendix F.
+   Appendix G.
 
 5.2.  EDHOC Message 1
 
@@ -1299,6 +1300,10 @@ Table of Contents
    *  Choose a connection identifier C_I and store it for the length of
       the protocol.
 
+   *  Obtain EAD_1 from the application.  Additional protocol data, such
+      as G_X or SUITES_I, may be needed to compute EAD_1, see
+      Appendix E.
+
    *  Encode message_1 as a sequence of CBOR encoded data items as
       specified in Section 5.2.1
 
@@ -1314,7 +1319,8 @@ Table of Contents
    *  Verify that the selected cipher suite is supported and that no
       prior cipher suite in SUITES_I is supported.
 
-   *  Pass EAD_1 to the security application.
+   *  If EAD_1 is present, make message_1 content available to the
+      application for EAD processing.
 
    If any processing step fails, the Responder SHOULD send an EDHOC
    error message back, formatted as defined in Section 6, and the
@@ -1353,6 +1359,12 @@ Table of Contents
    *  Choose a connection identifier C_R and store it for the length of
       the protocol.
 
+   *  Obtain EAD_2 from the application.  Additional protocol data, such
+      as G_X or G_Y, may be needed to compute EAD_2, see Appendix E.
+
+      -  EAD_2 - unprotected external authorization data, see
+         Section 3.8.
+
    *  Compute the transcript hash TH_2 = H( H(message_1), G_Y, C_R )
       where H() is the EDHOC hash algorithm of the selected cipher
       suite.  The transcript hash TH_2 is a CBOR encoded bstr and the
@@ -1374,9 +1386,6 @@ Table of Contents
 
       -  CRED_R - CBOR item containing the credential of the Responder,
          see Section 3.5.2
-
-      -  EAD_2 - unprotected external authorization data, see
-         Section 3.8
 
    *  If the Responder authenticates with a static Diffie-Hellman key
       (method equals 1 or 3), then Signature_or_MAC_2 is MAC_2.  If the
@@ -1430,10 +1439,13 @@ Table of Contents
    *  Decrypt CIPHERTEXT_2, see Section 5.3.2, and discard padding, if
       present.
 
-   *  Pass EAD_2 to the security application.
+   *  Make ID_CRED_R and EAD_2 (if present) available to the application
+      for authentication- and EAD processing.  Additional protocol data,
+      such as G_X or G_Y, may be needed for EAD processing, see
+      Appendix E.
 
-   *  Verify that the identity of the Responder is an allowed identity
-      for this connection, see Appendix D.1.6.
+   *  Obtain the authentication credential (CRED_R) and the
+      authentication key of R from the application (or by other means).
 
    *  Verify Signature_or_MAC_2 using the algorithm in the selected
       cipher suite.  The verification process depends on the method, see
@@ -1461,6 +1473,11 @@ Table of Contents
 
    The Initiator SHALL compose message_3 as follows:
 
+   *  Obtain EAD_3 from the application.  Additional protocol data, such
+      as G_Y, may be needed to compute EAD_3, see Appendix E.
+
+      -  EAD_3 - protected external authorization data, see Section 3.8.
+
    *  Compute the transcript hash TH_3 = H(TH_2, CIPHERTEXT_2) where H()
       is the EDHOC hash algorithm of the selected cipher suite.  The
       transcript hash TH_3 is a CBOR encoded bstr and the input to the
@@ -1481,8 +1498,6 @@ Table of Contents
 
       -  CRED_I - CBOR item containing the credential of the Initiator,
          see Section 3.5.2
-
-      -  EAD_3 - protected external authorization data, see Section 3.8
 
    *  If the Initiator authenticates with a static Diffie-Hellman key
       (method equals 2 or 3), then Signature_or_MAC_3 is MAC_3.  If the
@@ -1538,10 +1553,10 @@ Table of Contents
    *  Encode message_3 as a CBOR data item as specified in
       Section 5.4.1.
 
-   Pass the connection identifiers (C_I, C_R) and the application
-   algorithms in the selected cipher suite to the application.  The
-   application can now derive application keys using the EDHOC-Exporter
-   interface, see Section 4.3.
+   *  Make the connection identifiers (C_I, C_R) and the application
+      algorithms in the selected cipher suite available to the
+      application.  The application can now derive application keys
+      using the EDHOC-Exporter interface, see Section 4.3.
 
    After sending message_3, the Initiator is assured that no other party
    than the Responder can compute the key PRK_4x3m (implicit key
@@ -1571,19 +1586,21 @@ Table of Contents
       algorithm in the selected cipher suite, and the parameters defined
       in Section 5.4.2.  Discard padding, if present.
 
-   *  Pass EAD_3 to the security application.
+   *  Make ID_CRED_I and EAD_3 (if present) available to application for
+      authentication- and EAD processing.  Additional protocol data,
+      such as G_Y, may be needed for EAD processing, see Appendix E.
 
-   *  Verify that the identity of the Initiator is an allowed identity
-      for this connection, see Appendix D.1.6.
+   *  Obtain the authentication credential (CRED_I) and the
+      authentication key of I from the application (or by other means).
 
    *  Verify Signature_or_MAC_3 using the algorithm in the selected
       cipher suite.  The verification process depends on the method, see
       Section 5.4.2.
 
-   *  Pass the connection identifiers (C_I, C_R), and the application
-      algorithms in the selected cipher suite to the security
+   *  Make the connection identifiers (C_I, C_R) and the application
+      algorithms in the selected cipher suite available to the
       application.  The application can now derive application keys
-      using the EDHOC-Exporter interface.
+      using the EDHOC-Exporter interface, see Section 4.3.
 
    If any processing step fails, the Responder SHOULD send an EDHOC
    error message back, formatted as defined in Section 6.  Sending error
@@ -1630,6 +1647,11 @@ Table of Contents
 
    The Responder SHALL compose message_4 as follows:
 
+   *  Obtain EAD_4 from the application.  Additional protocol data may
+      be needed to compute EAD_4, see Appendix E.
+
+      -  EAD_4 - protected external authorization data, see Section 3.8.
+
    *  Compute a COSE_Encrypt0 as defined in Sections 5.2 and 5.3 of
       [I-D.ietf-cose-rfc8152bis-struct], with the EDHOC AEAD algorithm
       of the selected cipher suite, using the encryption key K_4, the
@@ -1654,9 +1676,8 @@ Table of Contents
 
       -  P = ( ? PAD, ? EAD_4 )
 
-         o  EAD_4 - protected external authorization data, see
-            Section 3.8.  PAD = 1*true is padding that may be used to
-            hide the length of the unpadded plaintext.
+         o  PAD = 1*true is padding that may be used to hide the length
+            of the unpadded plaintext.
 
       CIPHERTEXT_4 is the 'ciphertext' of COSE_Encrypt0.
 
@@ -1678,7 +1699,9 @@ Table of Contents
       algorithm in the selected cipher suite, and the parameters defined
       in Section 5.5.2.  Discard padding, if present.
 
-   *  Pass EAD_4 to the security application.
+   *  Make EAD_4 (if present) available to application for EAD
+      processing.  Additional protocol data may be needed for EAD
+      processing, see Appendix E.
 
    If any processing step fails, the Responder SHOULD send an EDHOC
    error message back, formatted as defined in Section 6.  Sending error
@@ -2866,9 +2889,9 @@ Table of Contents
               Mattsson, J. P., Thormarker, E., and S. Ruohomaa,
               "Deterministic ECDSA and EdDSA Signatures with Additional
               Randomness", Work in Progress, Internet-Draft, draft-
-              mattsson-cfrg-det-sigs-with-noise-02, 11 March 2020,
+              mattsson-cfrg-det-sigs-with-noise-03, 3 February 2022,
               <https://www.ietf.org/archive/id/draft-mattsson-cfrg-det-
-              sigs-with-noise-02.txt>.
+              sigs-with-noise-03.txt>.
 
    [I-D.selander-ace-ake-authz]
               Selander, G., Mattsson, J. P., Vučinić, M., Richardson,
@@ -3569,7 +3592,11 @@ D.5.  Authentication related information in EAD
    provide input to the authentication related processing, which enables
    the latter to perform its verification.
 
-Appendix E.  Applicability Template Example
+Appendix E.  External Authorization Data processing
+
+   TBD
+
+Appendix F.  Applicability Template Example
 
    This appendix contains a rudimentary example of an applicability
    template, see Section 3.9.
@@ -3608,7 +3635,7 @@ Appendix E.  Applicability Template Example
    7.  No use of message_4: the application sends protected messages
        from R to I.
 
-Appendix F.  EDHOC Message Deduplication
+Appendix G.  EDHOC Message Deduplication
 
    EDHOC by default assumes that message duplication is handled by the
    transport, in this section exemplified with CoAP.
@@ -3653,7 +3680,7 @@ Appendix F.  EDHOC Message Deduplication
    *  Different instances of the same message MUST NOT be processed in
       one session.
 
-Appendix G.  Transports Not Natively Providing Correlation
+Appendix H.  Transports Not Natively Providing Correlation
 
    Protocols that do not natively provide full correlation between a
    series of messages can send the C_I and C_R identifiers along as
@@ -3669,7 +3696,7 @@ Appendix G.  Transports Not Natively Providing Correlation
    Protocols that do not provide any correlation at all can prescribe
    prepending of the peer's chosen C_x to all messages.
 
-Appendix H.  Change Log
+Appendix I.  Change Log
 
    RFC Editor: Please remove this appendix.
 
