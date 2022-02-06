@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-02-03T01:04:27.771366+00:00",
+  "timestamp": "2022-02-06T01:15:12.109101+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -8590,6 +8590,22 @@
       "updatedAt": "2022-02-01T07:08:18Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 243,
+      "id": "I_kwDOEItXAM5C-OjY",
+      "title": "Checking G_X in EDHOC Message 1",
+      "url": "https://github.com/lake-wg/edhoc/issues/243",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In the Editor's copy, the second bullet point at [1] says:\r\n\r\n> Verify that G_X is not equal to G_X in a simultanous EDHOC message exchange initiated by the Responder.\r\n\r\nCould you clarify the exact meaning of \"simultaneous EDHOC message exchange\" and which of the existing EDHOC sessions should be checked?\r\n\r\nIn particular, is this limited to checking the sessions that the Responder has started but are still not completed, while simply skipping all the other ones? If so, can a session be considered completed when TH_4 has been computed and stored, or even earlier than that?\r\n\r\n\r\n[1] https://lake-wg.github.io/edhoc/draft-ietf-lake-edhoc.html#section-5.2.3",
+      "createdAt": "2022-02-03T22:15:10Z",
+      "updatedAt": "2022-02-03T22:15:10Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -11433,13 +11449,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2022-01-30T14:23:41Z",
-      "updatedAt": "2022-01-30T14:23:41Z",
+      "updatedAt": "2022-02-04T17:04:44Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "0682135bd778164c86ae170d1cfb9947802573a7",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "section-3.5-update",
-      "headRefOid": "7b7f96386e7d3a64740043ff0444d773ab6a65cc",
+      "headRefOid": "bb4170d889b764cc888d1ce70b22e59c7c3cd5ee",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
