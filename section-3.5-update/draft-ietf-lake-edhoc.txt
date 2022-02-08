@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 8 August 2022                                          Ericsson
-                                                         4 February 2022
+Expires: 12 August 2022                                         Ericsson
+                                                         8 February 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 August 2022.
+   This Internet-Draft will expire on 12 August 2022.
 
 Copyright Notice
 
@@ -142,11 +142,10 @@ Table of Contents
      D.3.  Trust-on-first-use
      D.4.  Revocation
      D.5.  Authentication related information in EAD
-   Appendix E.  External Authorization Data processing
-   Appendix F.  Applicability Template Example
-   Appendix G.  EDHOC Message Deduplication
-   Appendix H.  Transports Not Natively Providing Correlation
-   Appendix I.  Change Log
+   Appendix E.  Applicability Template Example
+   Appendix F.  EDHOC Message Deduplication
+   Appendix G.  Transports Not Natively Providing Correlation
+   Appendix H.  Change Log
    Acknowledgments
    Authors' Addresses
 
@@ -843,17 +842,58 @@ Table of Contents
    In order to reduce round trips and number of messages or to simplify
    processing, external security applications may be integrated into
    EDHOC by transporting authorization related data in the messages.
-   One example is third-party identity and authorization information
-   whose protection is out of scope of EDHOC
-   [I-D.selander-ace-ake-authz].  Another example is a certificate
-   enrollment request or the resulting issued certificate.
 
    EDHOC allows opaque external authorization data (EAD) to be sent in
-   the EDHOC messages.  External authorization data sent in message_1
-   (EAD_1) or message_2 (EAD_2) should be considered unprotected by
-   EDHOC, see Section 8.5.  External authorization data sent in
-   message_3 (EAD_3) or message_4 (EAD_4) is protected between Initiator
-   and Responder.
+   each of the four EDHOC messages (EAD_1, EAD_2, EAD_3, EAD_4).
+
+   *  One example is third-party authorization information requested in
+      EAD_1 and an authorization artifact ("voucher", cf. [RFC8366])
+      returned in EAD_2, see [I-D.selander-ace-ake-authz].
+
+   *  Another example is remote attestation requested in EAD_2, and an
+      Entity Attestation Token (EAT, [I-D.ietf-rats-eat]) returned i
+      EAD_3.
+
+   *  A third example is certificate enrolment where a Certificate
+      Signing Request (CSR, [RFC2986]) is included EAD_3, and the issued
+      public key certificate (X.509 [RFC5280], C509
+      [I-D.ietf-cose-cbor-encoded-cert]) or a reference thereof is
+      returned i EAD_4.
+
+   External authorization data should be considered unprotected by
+   EDHOC, and the protection of EAD is the responsibility of the
+   security application (third party authorization, remote attestation,
+   certificate enrolment, etc.).  The security properties of the EAD
+   fields are discussed in Section 8.1.
+
+   To support use cases where the EAD field is used in the EDHOC
+   processing of the message in which they are contained, the EAD fields
+   are made available to the application before the message is verified,
+   see details of message processing in Section 5.  For example, by
+   making the voucher in EAD_2 available to the application, the
+   Initiator can verify the identity or public key of the Responder
+   before verifying the signature.
+
+   The security application may need to wait for EDHOC message
+   verification to complete.  For example, the validation of a CSR
+   carried in EAD_3 is not started before EDHOC has successfully
+   verified message_3.
+
+   The security application may reuse EDHOC protocol fields which
+   therefore needs to be available to the application.  For example, the
+   security application may use the same crypto algorithms as in the
+   EDHOC session and therefore needs access to the selected cipher suite
+   (or the whole SUITES_I).  The application may use the ephemeral
+   public keys G_X and G_Y, as ephemeral keys or as nonces.
+
+   The EAD fields of EDHOC must not be used for generic application
+   data.  Since data carried in EAD may not be protected, or be
+   processed by the application before the EDHOC message is verified,
+   special considerations need to be made such that it does not violate
+   security and privacy requirements of the service which uses this
+   data, see Section 8.5.  The content in an EAD field may impact the
+   security properties provided by EDHOC.  Security applications making
+   use of the EAD fields must perform the necessary security analysis.
 
    External authorization data is a CBOR sequence (see Appendix C.1)
    consisting of one or more (ead_label, ead_value) pairs as defined
@@ -868,13 +908,7 @@ Table of Contents
    ead_value format, processing, and security considerations and
    register the ead_label, see Section 9.5.
 
-   The EAD fields of EDHOC are not intended for generic application
-   data.  Since data carried in EAD_1 and EAD_2 fields may not be
-   protected, special considerations need to be made such that it does
-   not violate security and privacy requirements of the service which
-   uses this data.  Moreover, the content in an EAD field may impact the
-   security properties provided by EDHOC.  Security applications making
-   use of the EAD fields must perform the necessary security analysis.
+   Editor's note: Should the IANA register be "specification required"?
 
 3.9.  Applicability Template
 
@@ -924,7 +958,7 @@ Table of Contents
    cipher suite is still performed as described in Section 5.2.1 and
    Section 6.3, but it may become simplified by this knowledge.
 
-   An example of an applicability template is shown in Appendix F.
+   An example of an applicability template is shown in Appendix E.
 
    For some parameters, like METHOD, ID_CRED_x, type of EAD, the
    receiver is able to verify compliance with applicability template,
@@ -1229,7 +1263,7 @@ Table of Contents
    This assumes that message duplication due to re-transmissions is
    handled by the transport protocol, see Section 3.4.  The case when
    the transport does not support message deduplication is addressed in
-   Appendix G.
+   Appendix F.
 
 5.2.  EDHOC Message 1
 
@@ -1302,7 +1336,7 @@ Table of Contents
 
    *  Obtain EAD_1 from the application.  Additional protocol data, such
       as G_X or SUITES_I, may be needed to compute EAD_1, see
-      Appendix E.
+      Section 3.8.
 
    *  Encode message_1 as a sequence of CBOR encoded data items as
       specified in Section 5.2.1
@@ -1360,7 +1394,7 @@ Table of Contents
       the protocol.
 
    *  Obtain EAD_2 from the application.  Additional protocol data, such
-      as G_X or G_Y, may be needed to compute EAD_2, see Appendix E.
+      as G_X or G_Y, may be needed to compute EAD_2, see Section 3.8.
 
       -  EAD_2 - unprotected external authorization data, see
          Section 3.8.
@@ -1442,7 +1476,7 @@ Table of Contents
    *  Make ID_CRED_R and EAD_2 (if present) available to the application
       for authentication- and EAD processing.  Additional protocol data,
       such as G_X or G_Y, may be needed for EAD processing, see
-      Appendix E.
+      Section 3.8.
 
    *  Obtain the authentication credential (CRED_R) and the
       authentication key of R from the application (or by other means).
@@ -1474,7 +1508,7 @@ Table of Contents
    The Initiator SHALL compose message_3 as follows:
 
    *  Obtain EAD_3 from the application.  Additional protocol data, such
-      as G_Y, may be needed to compute EAD_3, see Appendix E.
+      as G_Y, may be needed to compute EAD_3, see Section 3.8.
 
       -  EAD_3 - protected external authorization data, see Section 3.8.
 
@@ -1588,7 +1622,7 @@ Table of Contents
 
    *  Make ID_CRED_I and EAD_3 (if present) available to application for
       authentication- and EAD processing.  Additional protocol data,
-      such as G_Y, may be needed for EAD processing, see Appendix E.
+      such as G_Y, may be needed for EAD processing, see Section 3.8.
 
    *  Obtain the authentication credential (CRED_I) and the
       authentication key of I from the application (or by other means).
@@ -1648,7 +1682,7 @@ Table of Contents
    The Responder SHALL compose message_4 as follows:
 
    *  Obtain EAD_4 from the application.  Additional protocol data may
-      be needed to compute EAD_4, see Appendix E.
+      be needed to compute EAD_4, see Section 3.8.
 
       -  EAD_4 - protected external authorization data, see Section 3.8.
 
@@ -1701,7 +1735,7 @@ Table of Contents
 
    *  Make EAD_4 (if present) available to application for EAD
       processing.  Additional protocol data may be needed for EAD
-      processing, see Appendix E.
+      processing, see Section 3.8.
 
    If any processing step fails, the Responder SHOULD send an EDHOC
    error message back, formatted as defined in Section 6.  Sending error
@@ -2048,6 +2082,14 @@ Table of Contents
    than the Initiator can compute the key.  The Responder can securely
    send protected application data and store the keying material
    PRK_4x3m and TH_4.
+
+   External authorization data sent in message_1 (EAD_1) or message_2
+   (EAD_2) should be considered unprotected by EDHOC, see Section 8.5.
+   EAD_2 is encrypted but the Responder has not yet authenticated the
+   Initiator.  External authorization data sent in message_3 (EAD_3) or
+   message_4 (EAD_4) is protected between Initiator and Responder by the
+   protocol, but note that EAD fields may be used by the application
+   before the message verification is completed, see Section 3.8.
 
    Key compromise impersonation (KCI): In EDHOC authenticated with
    signature keys, EDHOC provides KCI protection against an attacker
@@ -2878,6 +2920,13 @@ Table of Contents
               <https://www.ietf.org/archive/id/draft-ietf-lwig-security-
               protocol-comparison-05.txt>.
 
+   [I-D.ietf-rats-eat]
+              Lundblade, L., Mandyam, G., and J. O'Donoghue, "The Entity
+              Attestation Token (EAT)", Work in Progress, Internet-
+              Draft, draft-ietf-rats-eat-11, 24 October 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-rats-eat-
+              11.txt>.
+
    [I-D.ietf-tls-dtls13]
               Rescorla, E., Tschofenig, H., and N. Modadugu, "The
               Datagram Transport Layer Security (DTLS) Protocol Version
@@ -2907,6 +2956,11 @@ Table of Contents
               Devices", September 2020,
               <https://arxiv.org/abs/2007.11427>.
 
+   [RFC2986]  Nystrom, M. and B. Kaliski, "PKCS #10: Certification
+              Request Syntax Specification Version 1.7", RFC 2986,
+              DOI 10.17487/RFC2986, November 2000,
+              <https://www.rfc-editor.org/info/rfc2986>.
+
    [RFC6194]  Polk, T., Chen, L., Turner, S., and P. Hoffman, "Security
               Considerations for the SHA-0 and SHA-1 Message-Digest
               Algorithms", RFC 6194, DOI 10.17487/RFC6194, March 2011,
@@ -2925,6 +2979,11 @@ Table of Contents
               Kivinen, "Internet Key Exchange Protocol Version 2
               (IKEv2)", STD 79, RFC 7296, DOI 10.17487/RFC7296, October
               2014, <https://www.rfc-editor.org/info/rfc7296>.
+
+   [RFC8366]  Watsen, K., Richardson, M., Pritikin, M., and T. Eckert,
+              "A Voucher Artifact for Bootstrapping Protocols",
+              RFC 8366, DOI 10.17487/RFC8366, May 2018,
+              <https://www.rfc-editor.org/info/rfc8366>.
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
@@ -3575,7 +3634,7 @@ D.4.  Revocation
    It may be necessary to verify that the credentials are not revoked.
    Revocation may be replaced by only issuing short valid certificates.
    Revocation information may be transported as External Authentication
-   Data (EAD), see Section 3.8.
+   Data (EAD), see Appendix D.5.
 
 D.5.  Authentication related information in EAD
 
@@ -3592,11 +3651,7 @@ D.5.  Authentication related information in EAD
    provide input to the authentication related processing, which enables
    the latter to perform its verification.
 
-Appendix E.  External Authorization Data processing
-
-   TBD
-
-Appendix F.  Applicability Template Example
+Appendix E.  Applicability Template Example
 
    This appendix contains a rudimentary example of an applicability
    template, see Section 3.9.
@@ -3635,7 +3690,7 @@ Appendix F.  Applicability Template Example
    7.  No use of message_4: the application sends protected messages
        from R to I.
 
-Appendix G.  EDHOC Message Deduplication
+Appendix F.  EDHOC Message Deduplication
 
    EDHOC by default assumes that message duplication is handled by the
    transport, in this section exemplified with CoAP.
@@ -3680,7 +3735,7 @@ Appendix G.  EDHOC Message Deduplication
    *  Different instances of the same message MUST NOT be processed in
       one session.
 
-Appendix H.  Transports Not Natively Providing Correlation
+Appendix G.  Transports Not Natively Providing Correlation
 
    Protocols that do not natively provide full correlation between a
    series of messages can send the C_I and C_R identifiers along as
@@ -3696,7 +3751,7 @@ Appendix H.  Transports Not Natively Providing Correlation
    Protocols that do not provide any correlation at all can prescribe
    prepending of the peer's chosen C_x to all messages.
 
-Appendix I.  Change Log
+Appendix H.  Change Log
 
    RFC Editor: Please remove this appendix.
 
@@ -3956,11 +4011,11 @@ Acknowledgments
    Norrman, Salvador Perez, Eric Rescorla, Michael Richardson, Thorvald
    Sahl Joergensen, Jim Schaad, Carsten Schuermann, Ludwig Seitz,
    Stanislav Smyshlyaev, Valery Smyslov, Peter van der Stok, Rene
-   Struik, Vaishnavi Sundararajan, Erik Thormarker, Marco Tiloca, Michel
-   Veillette, and Malisa Vucinic for reviewing and commenting on
-   intermediate versions of the draft.  We are especially indebted to
-   Jim Schaad for his continuous reviewing and implementation of
-   different versions of the draft.
+   Struik, Per Staehl, Vaishnavi Sundararajan, Erik Thormarker, Marco
+   Tiloca, Michel Veillette, and Malisa Vucinic for reviewing and
+   commenting on intermediate versions of the draft.  We are especially
+   indebted to Jim Schaad for his continuous reviewing and
+   implementation of different versions of the draft.
 
    Work on this document has in part been supported by the H2020 project
    SIFIS-Home (grant agreement 952652).
