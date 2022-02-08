@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-02-06T01:15:12.109101+00:00",
+  "timestamp": "2022-02-08T01:09:28.303123+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -8553,9 +8553,17 @@
       "labels": [],
       "body": "Compliance requirements has some positive effects but also many negative.\r\n- Constrained devices might be required to support things (takes up storage) they never use.\r\n- Weaknesses might be found in cryptographic algorithms. Implementation then have to chose between being compliant or insecure.\r\n\r\nTLS 1.3 has softened the compliance requirements compared to TLS 1.2 (COSE does not have any at all). TLS 1.3 (RFC8446) use the following sentence\r\n\r\n\"  In the absence of an application profile standard specifying\r\n   otherwise:\r\n\"\r\n\r\nThis might (likely?) be a good sentence for EDHOC as well.\r\n ",
       "createdAt": "2022-01-29T11:15:26Z",
-      "updatedAt": "2022-01-31T08:01:16Z",
+      "updatedAt": "2022-02-07T17:52:26Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Other comments, in addition to the proposal in PR #239 (see above):\r\n\r\n1. TLS text for convenience: \r\n\r\n> In the absence of an application profile standard specifying otherwise:\r\n>\r\n> A TLS-compliant application MUST implement the TLS_AES_128_GCM_SHA256 cipher suite and SHOULD implement the TLS_AES_256_GCM_SHA384 and TLS_CHACHA20_POLY1305_SHA256  cipher suites.\r\n> \r\n> A TLS-compliant application MUST support digital signatures with rsa_pkcs1_sha256 (for certificates), rsa_pss_rsae_sha256 (for CertificateVerify and certificates), and ecdsa_secp256r1_sha256.  A TLS-compliant application MUST support key exchange with secp256r1 (NIST P-256) and SHOULD support key exchange with X25519.\r\n\r\n\r\n2. Corresponding EDHOC may be:\r\n\r\n\"In the absence of an _applicability template_ specifying otherwise:\"\r\n\r\n\r\n3. With an initial sentence as in 2. or PR 239, the current text on cipher suites may be considerably simplified (since it is anyway up to the application), for example:\r\n\r\nOLD\r\nFor many constrained IoT devices it is problematic to support several crypto primitives. Existing devices can be expected to support either ECDSA or EdDSA. Cipher suites 0 (AES-CCM-16-64-128, SHA-256, 8, X25519, EdDSA, AES-CCM-16-64-128, SHA-256) and 1 (AES-CCM-16-128-128, SHA-256, 16, X25519, EdDSA, AES-CCM-16-64-128, SHA-256) only differ in size of the MAC length, so supporting one or both of these is no essential difference. Similarly for cipher suites 2 (AES-CCM-16-64-128, SHA-256, 8, P-256, ES256, AES-CCM-16-64-128, SHA-256) and 3 (AES-CCM-16-128-128, SHA-256, 16, P-256, ES256, AES-CCM-16-64-128, SHA-256). To enable as much interoperability as possible, less constrained devices SHOULD implement all four cipher suites 0-3. Constrained endpoints SHOULD implement cipher suites 0 and 1, or cipher suites 2 and 3. Implementations only need to implement the algorithms needed for their supported methods.\r\n\r\n\r\nNEW\r\nCipher suites 2 (AES-CCM-16-64-128, SHA-256, 8, P-256, ES256, AES-CCM-16-64-128, SHA-256) and 3 (AES-CCM-16-128-128, SHA-256, 16, P-256, ES256, AES-CCM-16-64-128, SHA-256) only differ in size of the MAC length, so supporting one or both of these is no essential difference. \r\nAn EDHOC-compliant implementation MUST implement cipher suite 2 and 3. Implementations only need to implement the algorithms needed for their supported methods.\r\n",
+          "createdAt": "2022-02-07T17:51:30Z",
+          "updatedAt": "2022-02-07T17:52:26Z"
+        }
+      ]
     },
     {
       "number": 241,
@@ -8603,9 +8611,41 @@
       "labels": [],
       "body": "In the Editor's copy, the second bullet point at [1] says:\r\n\r\n> Verify that G_X is not equal to G_X in a simultanous EDHOC message exchange initiated by the Responder.\r\n\r\nCould you clarify the exact meaning of \"simultaneous EDHOC message exchange\" and which of the existing EDHOC sessions should be checked?\r\n\r\nIn particular, is this limited to checking the sessions that the Responder has started but are still not completed, while simply skipping all the other ones? If so, can a session be considered completed when TH_4 has been computed and stored, or even earlier than that?\r\n\r\n\r\n[1] https://lake-wg.github.io/edhoc/draft-ietf-lake-edhoc.html#section-5.2.3",
       "createdAt": "2022-02-03T22:15:10Z",
-      "updatedAt": "2022-02-03T22:15:10Z",
+      "updatedAt": "2022-02-07T13:00:36Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Yes, let's clarify that.\r\n",
+          "createdAt": "2022-02-07T13:00:36Z",
+          "updatedAt": "2022-02-07T13:00:36Z"
+        }
+      ]
+    },
+    {
+      "number": 244,
+      "id": "I_kwDOEItXAM5DItO1",
+      "title": "Update test vectors with new Exporter label",
+      "url": "https://github.com/lake-wg/edhoc/issues/244",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "PR #205, which is merged with master, changed Exporter labels for OSCORE:\r\n\r\nhttps://github.com/lake-wg/edhoc/pull/205/commits/febb2bab\r\n\r\nThe test vectors need to be updated accordingly, to be able to submit a new version of -traces matching the next version of -edhoc.\r\n\r\n(Att: @stoprocent @emanjon)",
+      "createdAt": "2022-02-07T18:37:06Z",
+      "updatedAt": "2022-02-07T22:30:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "stoprocent",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "PR done.",
+          "createdAt": "2022-02-07T22:30:07Z",
+          "updatedAt": "2022-02-07T22:30:07Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -11390,24 +11430,26 @@
       "id": "PR_kwDOEItXAM4xuRZM",
       "title": "Updated p-256 test vectors to use SHA256/64 in ID_CRED_x",
       "url": "https://github.com/lake-wg/edhoc/pull/237",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "stoprocent",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Required due to issue #235\r\nUpdated code again can be found here: https://github.com/stoprocent/edhoc/commit/a8d4c1d6ae4f8a7460c88a50481ec5b49a0185e4",
       "createdAt": "2022-01-28T08:35:21Z",
-      "updatedAt": "2022-01-28T08:35:21Z",
+      "updatedAt": "2022-02-07T18:25:06Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "0682135bd778164c86ae170d1cfb9947802573a7",
       "headRepository": "stoprocent/edhoc",
       "headRefName": "test-vectors-rfc-p256",
       "headRefOid": "a78a8519948c2abec7af8c485589538c449f3c15",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-02-07T18:25:06Z",
+      "mergedAt": "2022-02-07T18:25:06Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "a4f1aa72386b168504145c6a769d20b55e0e03a8"
+      },
       "comments": [],
       "reviews": []
     },
@@ -11456,6 +11498,32 @@
       "headRepository": "lake-wg/edhoc",
       "headRefName": "section-3.5-update",
       "headRefOid": "bb4170d889b764cc888d1ce70b22e59c7c3cd5ee",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 245,
+      "id": "PR_kwDOEItXAM4yM2Av",
+      "title": "Update labels in test vectors according to #204",
+      "url": "https://github.com/lake-wg/edhoc/pull/245",
+      "state": "OPEN",
+      "author": "stoprocent",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is addressing #204 and  #244.\r\nAs usual, code can be found here: https://github.com/stoprocent/edhoc/commit/864aa6918b9b8c871a8bebd86ee6ff7014d5849b",
+      "createdAt": "2022-02-07T22:29:51Z",
+      "updatedAt": "2022-02-07T22:29:51Z",
+      "baseRepository": "lake-wg/edhoc",
+      "baseRefName": "master",
+      "baseRefOid": "a4f1aa72386b168504145c6a769d20b55e0e03a8",
+      "headRepository": "stoprocent/edhoc",
+      "headRefName": "test-vectors-rfc-p256",
+      "headRefOid": "5047bd2ce2f592d68b527d0f692f12c8ce9e046c",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
