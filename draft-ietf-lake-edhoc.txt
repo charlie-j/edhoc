@@ -5,8 +5,8 @@
 Network Working Group                                        G. Selander
 Internet-Draft                                         J. Preuß Mattsson
 Intended status: Standards Track                            F. Palombini
-Expires: 12 August 2022                                         Ericsson
-                                                         8 February 2022
+Expires: 14 August 2022                                         Ericsson
+                                                        10 February 2022
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 August 2022.
+   This Internet-Draft will expire on 14 August 2022.
 
 Copyright Notice
 
@@ -3809,17 +3809,18 @@ Appendix G.  Change Log
 Acknowledgments
 
    The authors want to thank Christian Amsuess, Alessandro Bruni,
-   Karthikeyan Bhargavan, Timothy Claeys, Martin Disch, Loic Ferreira,
-   Theis Groenbech Petersen, Dan Harkins, Klaus Hartke, Russ Housley,
-   Stefan Hristozov, Alexandros Krontiris, Ilari Liusvaara, Karl
-   Norrman, Salvador Perez, Eric Rescorla, Michael Richardson, Thorvald
-   Sahl Joergensen, Jim Schaad, Carsten Schuermann, Ludwig Seitz,
-   Stanislav Smyshlyaev, Valery Smyslov, Peter van der Stok, Rene
-   Struik, Vaishnavi Sundararajan, Erik Thormarker, Marco Tiloca, Michel
-   Veillette, and Malisa Vucinic for reviewing and commenting on
-   intermediate versions of the draft.  We are especially indebted to
-   Jim Schaad for his continuous reviewing and implementation of
-   different versions of the draft.
+   Karthikeyan Bhargavan, Timothy Claeys, Martin Disch, Stephen Farrell,
+   Loic Ferreira, Theis Groenbech Petersen, Dan Harkins, Klaus Hartke,
+   Russ Housley, Stefan Hristozov, Alexandros Krontiris, Ilari
+   Liusvaara, Kathleen Moriarty, Karl Norrman, Salvador Perez, Eric
+   Rescorla, Michael Richardson, Thorvald Sahl Joergensen, Jim Schaad,
+   Carsten Schuermann, Ludwig Seitz, Stanislav Smyshlyaev, Valery
+   Smyslov, Peter van der Stok, Rene Struik, Vaishnavi Sundararajan,
+   Erik Thormarker, Marco Tiloca, Sean Turner, Michel Veillette, and
+   Malisa Vucinic for reviewing and commenting on intermediate versions
+   of the draft.  We are especially indebted to Jim Schaad for his
+   continuous reviewing and implementation of different versions of the
+   draft.
 
    Work on this document has in part been supported by the H2020 project
    SIFIS-Home (grant agreement 952652).
