@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-02-08T01:09:28.303123+00:00",
+  "timestamp": "2022-02-10T01:09:39.162462+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -8628,15 +8628,15 @@
       "id": "I_kwDOEItXAM5DItO1",
       "title": "Update test vectors with new Exporter label",
       "url": "https://github.com/lake-wg/edhoc/issues/244",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "gselander",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "PR #205, which is merged with master, changed Exporter labels for OSCORE:\r\n\r\nhttps://github.com/lake-wg/edhoc/pull/205/commits/febb2bab\r\n\r\nThe test vectors need to be updated accordingly, to be able to submit a new version of -traces matching the next version of -edhoc.\r\n\r\n(Att: @stoprocent @emanjon)",
       "createdAt": "2022-02-07T18:37:06Z",
-      "updatedAt": "2022-02-07T22:30:07Z",
-      "closedAt": null,
+      "updatedAt": "2022-02-08T07:15:47Z",
+      "closedAt": "2022-02-08T07:15:47Z",
       "comments": [
         {
           "author": "stoprocent",
@@ -8644,8 +8644,47 @@
           "body": "PR done.",
           "createdAt": "2022-02-07T22:30:07Z",
           "updatedAt": "2022-02-07T22:30:07Z"
+        },
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks, merged.",
+          "createdAt": "2022-02-08T07:15:47Z",
+          "updatedAt": "2022-02-08T07:15:47Z"
         }
       ]
+    },
+    {
+      "number": 246,
+      "id": "I_kwDOEItXAM5DLTbq",
+      "title": "Update acknowledgements",
+      "url": "https://github.com/lake-wg/edhoc/issues/246",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Stephen, Sean, Kathleen, ...",
+      "createdAt": "2022-02-08T10:03:33Z",
+      "updatedAt": "2022-02-08T10:03:33Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 247,
+      "id": "I_kwDOEItXAM5DPuC6",
+      "title": "Illustrate message_4 in CoAP transport",
+      "url": "https://github.com/lake-wg/edhoc/issues/247",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Include message_4 in Figure 10 (and perhaps not in Fig 11, since it is optional)",
+      "createdAt": "2022-02-09T08:17:37Z",
+      "updatedAt": "2022-02-09T08:17:37Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -11491,18 +11530,26 @@
       "labels": [],
       "body": "",
       "createdAt": "2022-01-30T14:23:41Z",
-      "updatedAt": "2022-02-04T17:04:44Z",
+      "updatedAt": "2022-02-08T10:22:53Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "0682135bd778164c86ae170d1cfb9947802573a7",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "section-3.5-update",
-      "headRefOid": "bb4170d889b764cc888d1ce70b22e59c7c3cd5ee",
+      "headRefOid": "ebc7f6cd73e74e3fe8262bdb9659ae26d69e3fe6",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "gselander",
+          "authorAssociation": "COLLABORATOR",
+          "body": "John requested the basic authentication services by EDHOC being highlighted in the beginning of the document. I tried to fit that in but didn't find a good place. Here is some text if someone wants to try:\r\n\r\n\r\n> EDHOC performs proof-of-possession that the other endpoint has the private key corresponding to its public key. EDHOC also transports information about the authentication credential (e.g., X.509 certificate or CBOR Web Token) containing the public key. Other authentication related verifications are out of scope for EDHOC, and is the responsibility of the application.\r\n",
+          "createdAt": "2022-02-08T10:22:53Z",
+          "updatedAt": "2022-02-08T10:22:53Z"
+        }
+      ],
       "reviews": []
     },
     {
@@ -11510,24 +11557,26 @@
       "id": "PR_kwDOEItXAM4yM2Av",
       "title": "Update labels in test vectors according to #204",
       "url": "https://github.com/lake-wg/edhoc/pull/245",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "stoprocent",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "This is addressing #204 and  #244.\r\nAs usual, code can be found here: https://github.com/stoprocent/edhoc/commit/864aa6918b9b8c871a8bebd86ee6ff7014d5849b",
       "createdAt": "2022-02-07T22:29:51Z",
-      "updatedAt": "2022-02-07T22:29:51Z",
+      "updatedAt": "2022-02-08T07:15:22Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "a4f1aa72386b168504145c6a769d20b55e0e03a8",
       "headRepository": "stoprocent/edhoc",
       "headRefName": "test-vectors-rfc-p256",
       "headRefOid": "5047bd2ce2f592d68b527d0f692f12c8ce9e046c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-02-08T07:15:22Z",
+      "mergedAt": "2022-02-08T07:15:22Z",
+      "mergedBy": "gselander",
+      "mergeCommit": {
+        "oid": "1c61585211e66f90802fd501b0d8f74c355e6a72"
+      },
       "comments": [],
       "reviews": []
     }
