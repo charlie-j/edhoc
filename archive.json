@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-02-10T01:09:39.162462+00:00",
+  "timestamp": "2022-02-13T01:13:18.276199+00:00",
   "repo": "lake-wg/edhoc",
   "labels": [
     {
@@ -7867,7 +7867,7 @@
       ],
       "body": "From Marco's review:\r\n\r\n[Section 5.2.3]\r\n\r\n* \"If an error message is sent, the session MUST be discontinued.\"\r\n\r\n    Is this sentence actually required? Regardless sending an error \r\nmessage or not, the session is discontinued if any processing step \r\nfails, which is the reason for possibly sending an error message. Or are \r\nthere situations where an error message is sent even if no processing \r\nstep fails?\r\n\r\n",
       "createdAt": "2021-12-03T16:56:56Z",
-      "updatedAt": "2022-01-25T09:16:48Z",
+      "updatedAt": "2022-02-10T12:33:27Z",
       "closedAt": null,
       "comments": [
         {
@@ -7939,6 +7939,13 @@
           "body": "https://mailarchive.ietf.org/arch/msg/lake/RA9VAiL9zo_ZEjGz8yOAy0Esn7w/\r\n\r\nOr would the right choice be to differentiate between errors where the message might be retried and errors where the message may be retried later?\r\n\r\n1 | tstr | Do not automatically retry error\r\n2 | tstr | May retry later error\r\n\r\nMost be not client errors should not be retried while most but not all server errors might be retried.\r\n\r\nCarsten had the opinion that different EDHOC errors should lead to different automatic processing. But I think nothing like the above was ever discussed.",
           "createdAt": "2022-01-25T09:16:48Z",
           "updatedAt": "2022-01-25T09:16:48Z"
+        },
+        {
+          "author": "cabo",
+          "authorAssociation": "NONE",
+          "body": "I can't even understand the sentence.\r\n\r\n> If the processing fails for some reason then, typically, an error message is sent, the protocol is discontinued, and the protocol state erased. Further details are provided in the following subsections and in [Section 6](http://127.0.0.1:7997/#error)[](http://127.0.0.1:7997/#section-5.1-5).\r\n\r\nThese are passive constructions, so I don't know who is acting on the fact that \"an error message was sent\" (and how that is detected), and I don't know who is acting when performing the mandate \"the protocol is discontinued\".  (I hope that doesn't mean that we need a new standard because the old EDHOC was discontinued.  Is this about the protocol *run*?)\r\n\r\nSorry to be pedantic, but I really don't know what this all means. \r\n",
+          "createdAt": "2022-02-10T12:33:27Z",
+          "updatedAt": "2022-02-10T12:33:27Z"
         }
       ]
     },
@@ -8611,7 +8618,7 @@
       "labels": [],
       "body": "In the Editor's copy, the second bullet point at [1] says:\r\n\r\n> Verify that G_X is not equal to G_X in a simultanous EDHOC message exchange initiated by the Responder.\r\n\r\nCould you clarify the exact meaning of \"simultaneous EDHOC message exchange\" and which of the existing EDHOC sessions should be checked?\r\n\r\nIn particular, is this limited to checking the sessions that the Responder has started but are still not completed, while simply skipping all the other ones? If so, can a session be considered completed when TH_4 has been computed and stored, or even earlier than that?\r\n\r\n\r\n[1] https://lake-wg.github.io/edhoc/draft-ietf-lake-edhoc.html#section-5.2.3",
       "createdAt": "2022-02-03T22:15:10Z",
-      "updatedAt": "2022-02-07T13:00:36Z",
+      "updatedAt": "2022-02-11T08:03:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -8620,6 +8627,27 @@
           "body": "Yes, let's clarify that.\r\n",
           "createdAt": "2022-02-07T13:00:36Z",
           "updatedAt": "2022-02-07T13:00:36Z"
+        },
+        {
+          "author": "chrysn",
+          "authorAssociation": "NONE",
+          "body": "It would also help narrowing that statement to where it is actually relevant. Reading over \"all the state\" in a system can be costly, and becomes less and less well-defined the more a system becomes distributed. Reading (for example, if that is the case) over \"all the state of exchanges that use a particular PSK\" would be more doable.",
+          "createdAt": "2022-02-10T16:10:02Z",
+          "updatedAt": "2022-02-10T16:10:02Z"
+        },
+        {
+          "author": "pbtgit",
+          "authorAssociation": "NONE",
+          "body": "> It would also help narrowing that statement to where it is actually relevant. Reading over \"all the state\" in a system can be costly, and becomes less and less well-defined the more a system becomes distributed. Reading (for example, if that is the case) over \"all the state of exchanges that use a particular PSK\" would be more doable.\r\nI certainly agree.\r\n",
+          "createdAt": "2022-02-11T07:16:14Z",
+          "updatedAt": "2022-02-11T07:16:14Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree. The G_X is a leftover from the time when we had a PSK mode, It was left as it theoretically is a nice way to stop selfie-attacks for future methods. Given the practical problems and that this is not needed for any of the current methods with mutual authentication I think it should be removed from processing and moved back to security considerations.\r\n- For method 0-3 with mutual authentication, selfie-attacks are not a problem, I will authenticate R.\r\n- For method 0-3 with TOFU, selfie-attacks are a problem, but can then be solved by the looking at CRED_R and making sure CRED_R was not previously sent by I. This is easier to do then checking active G_X.\r\n- For a hypothetical future EDHOC PSK mode, selfie-attack can be mitigated by doing the G_X check, assign strict roles (I or R) to each PSK, or adding some identifier string to e.g. EAD (\"42-50-31-FF-EF-37-32-39\").\r\n ",
+          "createdAt": "2022-02-11T08:03:29Z",
+          "updatedAt": "2022-02-11T08:03:29Z"
         }
       ]
     },
@@ -8666,9 +8694,17 @@
       "labels": [],
       "body": "Stephen, Sean, Kathleen, ...",
       "createdAt": "2022-02-08T10:03:33Z",
-      "updatedAt": "2022-02-08T10:03:33Z",
+      "updatedAt": "2022-02-10T07:28:02Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Added the three you listed",
+          "createdAt": "2022-02-10T07:28:02Z",
+          "updatedAt": "2022-02-10T07:28:02Z"
+        }
+      ]
     },
     {
       "number": 247,
@@ -8685,6 +8721,54 @@
       "updatedAt": "2022-02-09T08:17:37Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 249,
+      "id": "I_kwDOEItXAM5DW8rV",
+      "title": "Type of connection identifiers",
+      "url": "https://github.com/lake-wg/edhoc/issues/249",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\r\nProxying question from Stefan: \r\n\r\n> Is there a strong reason to define the encoding as bstr/int. Is it not enough to have just int? From my perspective to allow one of both bstr or int depending on the user makes not only the the implementation more complex but as well the EDHOC API more user unfriendly. \r\n\r\nThis would reduce the number of identifiers of a given size. Perhaps this could be a constraint in the applicability template.",
+      "createdAt": "2022-02-10T13:32:35Z",
+      "updatedAt": "2022-02-11T08:08:00Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think the number of identifiers of a given size are as follows\r\n```\r\nbytes        bstr        int\r\n1               1         48\r\n2             256        464\r\n```\r\nOnly int would likely be acceptable.\r\n\r\n",
+          "createdAt": "2022-02-11T08:08:00Z",
+          "updatedAt": "2022-02-11T08:08:00Z"
+        }
+      ]
+    },
+    {
+      "number": 250,
+      "id": "I_kwDOEItXAM5DYPFl",
+      "title": "applicability template -> application profile",
+      "url": "https://github.com/lake-wg/edhoc/issues/250",
+      "state": "OPEN",
+      "author": "gselander",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The first term was \"applicability statement\" but since we did not intend the meaning of RFC 2026 was changed to \"applicability template\" which seems to be confusing because implies something needs to be filled in. New proposal:  \"application profile\".\r\n",
+      "createdAt": "2022-02-10T16:32:26Z",
+      "updatedAt": "2022-02-11T08:08:52Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I like it. That also aligns with the wording in TLS 1.3.",
+          "createdAt": "2022-02-11T08:08:52Z",
+          "updatedAt": "2022-02-11T08:08:52Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -11530,13 +11614,13 @@
       "labels": [],
       "body": "",
       "createdAt": "2022-01-30T14:23:41Z",
-      "updatedAt": "2022-02-08T10:22:53Z",
+      "updatedAt": "2022-02-11T15:58:28Z",
       "baseRepository": "lake-wg/edhoc",
       "baseRefName": "master",
       "baseRefOid": "0682135bd778164c86ae170d1cfb9947802573a7",
       "headRepository": "lake-wg/edhoc",
       "headRefName": "section-3.5-update",
-      "headRefOid": "ebc7f6cd73e74e3fe8262bdb9659ae26d69e3fe6",
+      "headRefOid": "d0ba5183d88e2f45afd671bd11402cc1610a81c7",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -11548,6 +11632,13 @@
           "body": "John requested the basic authentication services by EDHOC being highlighted in the beginning of the document. I tried to fit that in but didn't find a good place. Here is some text if someone wants to try:\r\n\r\n\r\n> EDHOC performs proof-of-possession that the other endpoint has the private key corresponding to its public key. EDHOC also transports information about the authentication credential (e.g., X.509 certificate or CBOR Web Token) containing the public key. Other authentication related verifications are out of scope for EDHOC, and is the responsibility of the application.\r\n",
           "createdAt": "2022-02-08T10:22:53Z",
           "updatedAt": "2022-02-08T10:22:53Z"
+        },
+        {
+          "author": "emanjon",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A lot of changes are good and needed. Comments\r\n\r\nHard to get an overview of this PR. Especially which of the deleted text that has been removed and what has just been moved around.\r\n\r\n>EDHOC MUST allow the application to read the authentication credential.\r\nShould this be \"information about authentication credentials\", i.e. ID_CRED_x?\r\n\r\n>EDHOC MUST have access to the authentication key of the authentication credential.\r\nEDHOC also need the authentication credentials, i.e. CRED_x?\r\n\r\n- Not sure all the EAD text belongs in the body.\r\n  - Lot of duplication in processing.\r\n  - A lot of the text is talking about unfinished drafts.\r\n\r\n- The new text is Authentication Related Verifications {#auth-validation} has several issues.\r\n\r\n- \"match the algorithm\"\r\n- \"The validation needs to be made\"\r\n- \"The issuer of the authentication credential needs to be trusted with issuing the credential.\"\r\n- \"the trust anchor is a Certification Authority (CA) certificate\"\r\n- \"at least one CA public key certificate\"\r\n- \"subject of the certificate owns the public key\"\r\n\r\nI am also not sure it should be added. The comment was to shorten down 3.5. This seems to expand things. \r\n",
+          "createdAt": "2022-02-10T07:10:45Z",
+          "updatedAt": "2022-02-10T07:10:45Z"
         }
       ],
       "reviews": []
@@ -11577,6 +11668,32 @@
       "mergeCommit": {
         "oid": "1c61585211e66f90802fd501b0d8f74c355e6a72"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 248,
+      "id": "PR_kwDOEItXAM4yWu_e",
+      "title": "Identity protection attack description",
+      "url": "https://github.com/lake-wg/edhoc/pull/248",
+      "state": "OPEN",
+      "author": "emanjon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "#241\r\n\r\nGood to describe that the known attack on Sigma is that the attacker create a new message_1, no attack is known where an active attacker modifies the ongoing connection (even if the lack of such attacks is likely not proven).",
+      "createdAt": "2022-02-10T07:37:09Z",
+      "updatedAt": "2022-02-10T07:37:09Z",
+      "baseRepository": "lake-wg/edhoc",
+      "baseRefName": "master",
+      "baseRefOid": "4a8b62968a266dd4b9ce93e2851b6af08249f893",
+      "headRepository": "lake-wg/edhoc",
+      "headRefName": "Identity-protection-attack-description",
+      "headRefOid": "725b554377fadfbd34777cb1b1fe798dda04184d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
