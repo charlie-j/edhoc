@@ -1940,7 +1940,7 @@ Message deduplication is resource demanding and therefore not supported in all C
 
 The guiding principle here is similar to the deduplication processing on CoAP messaging layer: a received duplicate EDHOC message SHALL NOT result in a response consisting of another instance of the next EDHOC message. The result MAY be that a duplicate EDHOC response is sent, provided it is still relevant with respect to the current protocol state. In any case, the received message MUST NOT be processed more than once in the same EDHOC session. This is called "EDHOC message deduplication".
 
-An EDHOC implementation MAY store the previously sent EDHOC message to be able to resend it. An EDHOC implementation MAY keep the protocol state to be able to recreate the previously sent EDHOC message and resend it. The previous message or protocol state MUST NOT be kept longer than what is required for retransmission, for example, in the case of CoAP transport, no longer than the EXCHANGE_LIFETIME (see Section 4.8.2 of {{RFC7252}}).
+An EDHOC implementation MAY store the previously sent EDHOC message to be able to resend it. An EDHOC implementation MUST NOT keep the protocol state to be able to recreate the previously sent EDHOC message and resend it. The previous message MUST NOT be kept longer than what is required for retransmission, for example, in the case of CoAP transport, no longer than the EXCHANGE_LIFETIME (see Section 4.8.2 of {{RFC7252}}).
 
 Note that the requirements in {{proc-outline}} still apply because duplicate messages are not processed by the EDHOC state machine:
 
